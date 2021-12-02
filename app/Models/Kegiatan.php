@@ -11,7 +11,9 @@ class Kegiatan extends Model
 
     protected $fillable = [
         'tanggal',
-        'status',
+        'jenis',
+        'file',
+        'deskripsi',
         'status',
     ];
 

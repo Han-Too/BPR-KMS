@@ -12,6 +12,7 @@ class Identitas extends Model
     protected $fillable = [
         'id_karyawan',
         'identitas',
+        'identity_picture',
         'no_identitas',
         'tanggal_aktif',
         'berlaku_sampai',

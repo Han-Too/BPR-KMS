@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -12,7 +13,7 @@ class LoginController extends Controller
     public function index()
     {
 
-        $kegiatan = Kegiatan::paginate(10);
+        $kegiatan = Kegiatan::latest()->paginate(5);
 
         return view('login.index', [
             'kegiatan' => $kegiatan
@@ -55,5 +56,14 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login');
+    }
+
+    public function filterkegiatanlogin($tgl)
+    {
+        $kegiatan = DB::table('kegiatans')->where('tanggal', $tgl)->get();
+
+        return view('login.index', [
+            'kegiatan' => $kegiatan
+        ]);
     }
 }

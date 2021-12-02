@@ -18,14 +18,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = User::paginate(10);
+        $user = User::paginate(5);
 
         return view('datakaryawan.index', [
             'user' => $user,
-            'nomor' => 1,
-        ]);
+        ])->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -59,13 +58,26 @@ class UserController extends Controller
             'alamat' => 'required',
         ]);
 
-        $datauser['password'] = bcrypt($datauser['password']);
-        $datauser['profile_photo_path'] = $request->file('profile_photo_path')->store('post-image-profile');
-        
-        User::create($datauser);
-        $request->session()->flash('message', 'Data berhasil di tambahkan.');
+        $cekUser = DB::table('users')
+                        ->where('id_karyawan', $request->id_karyawan)
+                        ->where('name', $request->name)
+                        ->first();
 
-        return redirect()->route("menu-karyawan");
+        if ($cekUser)
+        {
+            return redirect()->route("menu-karyawan")->with('error', 'Data user Sudah ada.!');
+        }
+
+        $datauser['password'] = bcrypt($datauser['password']);
+
+        if ($request->profile_photo_path != null)
+        {
+            $datauser['profile_photo_path'] = $request->file('profile_photo_path')->store('post-image-profile');
+        }
+            
+        User::create($datauser);
+        return redirect()->route("menu-karyawan")->with('message', 'Data berhasil di tambahkan.');
+
     }
 
     public function storeIdentitas(Request $request)
@@ -73,6 +85,7 @@ class UserController extends Controller
         $dataIdentitas = $request->validate([
             'id_karyawan' => 'required',
             'identitas' => 'required',
+            'identity_picture' => 'image|file|max:1024',
             'no_identitas' => 'required',
             'tanggal_aktif' => 'required',
             'berlaku_sampai' => 'required',
@@ -85,6 +98,10 @@ class UserController extends Controller
 
         if($cekIdentitas == null)
         {
+            if ($request->identity_picture != null)
+            {
+                $dataIdentitas['identity_picture'] = $request->file('identity_picture')->store('post-image-identitas');
+            }
             Identitas::create($dataIdentitas);
             return back();
         } else {
@@ -102,7 +119,6 @@ class UserController extends Controller
             'kota_pendidikan' => 'required',
             'tgl_masuk' => 'required',
             'status' => 'required',
-            'tgl_status' => 'required',
             'nilai' => 'required',
         ]);
 
@@ -162,7 +178,7 @@ class UserController extends Controller
                                 ->where('institusi_sertifikasi', $request->institusi_sertifikasi)
                                 ->first();
 
-        if(DB::table('sertifikasis')->where('institusi_sertifikasi', $request->institusi_sertifikasi)->first() == null)
+        if($cekSertifikasi == null)
         {
             Sertifikasi::create($datasertifikasi);
             return back();
@@ -244,15 +260,97 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id_karyawan)
     {
-        if ($user->profile_photo_path) 
+        $user = DB::table('users')->where('id_karyawan', $id_karyawan)->first();
+        $identitas = DB::table('identitas')->where('id_karyawan', $id_karyawan)->first();
+        $pendidikan = DB::table('pendidikans')->where('id_karyawan', $id_karyawan)->first();
+        $pekerjaan = DB::table('penggajians')->where('id_karyawan', $id_karyawan)->first();
+        $sertifikasi = DB::table('sertifikasis')->where('id_karyawan', $id_karyawan)->first();
+        $presensiHarian = DB::table('presensis')->where('id_karyawan', $id_karyawan)->first();
+        $presensiBulanan = DB::table('presensi_bulanans')->where('id_karyawan', $id_karyawan)->first();
+        $penggajian = DB::table('penggajians')->where('id_karyawan', $id_karyawan)->first();
+
+        if ($user)
         {
-            Storage::delete($user->profile_photo_path);
+            if ($user->profile_photo_path) 
+            {
+                Storage::delete($user->profile_photo_path);
+            }
+            DB::table('users')->where('id_karyawan', $id_karyawan)->delete();
         }
 
-        $user->delete();
+        if ($identitas)
+        {
+            if ($identitas->identity_picture)
+            {
+                Storage::delete($identitas->identity_picture);
+            }
+            DB::table('identitas')->where('id_karyawan', $id_karyawan)->delete();
+        }
+
+        if ($pendidikan)
+        {
+            DB::table('pendidikans')->where('id_karyawan', $id_karyawan)->delete();
+        }
+
+        if ($pekerjaan)
+        {
+            DB::table('penggajians')->where('id_karyawan', $id_karyawan)->delete();
+        }
+
+        if ($sertifikasi)
+        {
+            DB::table('sertifikasis')->where('id_karyawan', $id_karyawan)->delete();
+        }
+
+        if ($presensiHarian)
+        {
+            DB::table('presensis')->where('id_karyawan', $id_karyawan)->delete();
+        }
+
+        if ($presensiBulanan)
+        {
+            DB::table('presensi_bulanans')->where('id_karyawan', $id_karyawan)->delete();
+        }
+
+        if ($penggajian)
+        {
+            DB::table('penggajians')->where('id_karyawan', $id_karyawan)->delete();
+        }
 
         return redirect()->route("menu-karyawan");
+    }
+
+    public function destroyIdentitas($id)
+    {
+        $identitas = Identitas::findOrFail($id);
+        if ($identitas->identity_picture)
+        {
+            Storage::delete($identitas->identity_picture);
+        }
+        $identitas->delete();
+        return back();
+    }
+
+    public function destroyPendidikan($id)
+    {
+        $pendidikan = Pendidikan::findOrFail($id);
+        $pendidikan->delete();
+        return back();
+    }
+
+    public function destroyPekerjaan($id)
+    {
+        $pekerjaan = Pekerjaan::findOrFail($id);
+        $pekerjaan->delete();
+        return back();
+    }
+
+    public function destroySertifikasi($id)
+    {
+        $sertifikasi = Sertifikasi::findOrFail($id);
+        $sertifikasi->delete();
+        return back();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class KelolaUserController extends Controller
 {
@@ -11,9 +12,13 @@ class KelolaUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('kelolauser.index');
+        $user = User::paginate(5);
+
+        return view('kelolauser.index', [
+            'user' => $user,
+        ])->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -68,7 +73,12 @@ class KelolaUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $updateRole = $request->validate([
+            'role' => 'required'
+        ]);
+
+        User::where('id', $id)->update($updateRole);
+        return redirect()->route('kelolauser.index')->with('success', 'Berhasil Update Role.');
     }
 
     /**

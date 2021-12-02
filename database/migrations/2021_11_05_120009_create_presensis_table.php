@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePekerjaansTable extends Migration
+class CreatePresensisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,9 @@ class CreatePekerjaansTable extends Migration
      */
     public function up()
     {
-        Schema::create('pekerjaans', function (Blueprint $table) {
-            $table->id();
+        Schema::create('presensis', function (Blueprint $table) {
             $table->string('id_karyawan');
-            $table->string('institusi_pekerjaan');
-            $table->string('kota_pekerjaan');
-            $table->string('jabatan');
-            $table->date('tgl_masuk');
-            $table->date('tgl_keluar');
-            $table->string('keluar');
+            $table->dateTime('waktu');
             $table->timestamps();
         });
     }
@@ -33,6 +27,6 @@ class CreatePekerjaansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pekerjaans');
+        Schema::dropIfExists('presensis');
     }
 }

@@ -26,24 +26,46 @@
                             </a>
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link" href="{{ route("menu-karyawan") }}">
-                                        Data Karyawan
-                                    </a>
-                                    <a class="nav-link" href="{{ route('penggajian.index') }}">
-                                        Penggajian
-                                    </a>
-                                    <a class="nav-link" href="{{ route('presensi.index') }}">
-                                        Presensi
-                                    </a>
-                                    <a class="nav-link" href="{{ route('kelola-user.index') }}">
-                                        Kelola User
-                                    </a>
-                                    <a class="nav-link" href="#">
-                                        Pelaporan Dan Kegiatan
-                                    </a>
-                                    <a class="nav-link" href="#">
-                                        Kemajuan Pelaporan Dan Kegiatan
-                                    </a>
+                                    @can('kabag-sdm')
+                                        <div class="sb-sidenav-menu-heading pb-1 pt-1">Kabag sdm</div>
+                                        <hr style="height: 2px">
+                                        <a class="nav-link" href="{{ route("menu-karyawan") }}">
+                                            Data Karyawan
+                                        </a>
+                                        <a class="nav-link" href="{{ route('penggajian.index') }}">
+                                            Penggajian
+                                        </a>
+                                        <a class="nav-link" href="{{ route('presensi.index') }}">
+                                            Presensi
+                                        </a>
+                                        <a class="nav-link" href="{{ route('kegiatan.index') }}">
+                                            Pelaporan Dan Kegiatan
+                                        </a>
+                                    @elsecan('staf-sdm')
+                                        <div class="sb-sidenav-menu-heading pb-1 pt-1">Staf sdm</div>
+                                        <hr style="height: 2px">
+                                        <a class="nav-link" href="{{ route('kegiatan.index') }}">
+                                            Pelaporan Dan Kegiatan
+                                        </a>
+                                        <a class="nav-link" href="{{ route('presensi.index') }}">
+                                            Presensi
+                                        </a>
+                                        <a class="nav-link" href="{{ route("menu-karyawan") }}">
+                                            Data Karyawan
+                                        </a>
+                                    @elsecan('is-karyawan')
+                                        <div class="sb-sidenav-menu-heading pb-1 pt-1">Karyawan</div>
+                                        <hr style="height: 2px">
+                                        <a class="nav-link" href="{{ route("menu-karyawan") }}">
+                                            Data Karyawan
+                                        </a>
+                                    @elsecan('admin')
+                                        <div class="sb-sidenav-menu-heading pb-1 pt-1">Administrator</div>
+                                        <hr style="height: 2px">
+                                        <a class="nav-link pt-1" href="{{ route('kelolauser.index') }}">
+                                            Kelola User
+                                        </a>
+                                    @endcan
                                 </nav>
                             </div>
                         </div>

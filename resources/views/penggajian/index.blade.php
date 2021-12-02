@@ -6,12 +6,15 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <div class="logo d-flex justify-content-center mt-4">
-                <h5 class="fs-1 fw-bold">Penggajian</h5>
+                <div class="container">
+                  <div class="row">
+                      <div class="col">
+                        <div class="logo d-flex justify-content-center mt-4">
+                            <h5 class="fs-1 fw-bold">Penggajian</h5>
+                        </div>
+                      </div>
+                  </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
     <button type="button" class="btn btn-primary mb-2 " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
         Tambah
@@ -46,10 +49,10 @@
             <tbody>
                 @forelse($penggajian as $item)
                     <tr>
-                        <th scope="row">{{ $nomor++ }}</th>
+                        <th scope="row">{{ ++$i }}</th>
                         <td class="lh-sm">{{ $item->id_karyawan }}</td>
                         <td class="lh-sm">{{ $item->nama_karyawan }}</td>
-                        <td><a href="#" class="badge bg-info text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop1-{{ $item->id }}">Edit</a> <a href="#" class="badge bg-danger">Hapus</a></td>
+                        <td><a href="#" class="badge bg-info text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop1-{{ $item->id }}">Edit</a> <a href="#" class="badge bg-danger" data-bs-toggle="modal" data-bs-target="#modalPenggajianDelete-{{ $item->id }}">Hapus</a></td>
                     </tr>
                 @empty
                     <tr>
@@ -61,6 +64,7 @@
             </tbody>
         </table>
     </div>
+    {{ $penggajian->links() }}
 </div>
     
 <!-- Modal -->
@@ -412,6 +416,33 @@
             </form>
         </div>
 @endforeach
-    <!-- Akhir Tabel -->
+
+<!-- Modal -->
+@foreach ($penggajian as $item)
+<div class="modal fade" id="modalPenggajianDelete-{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Hapus Data</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            Hapus data penggajian ini ?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <form action="{{ route('penggajian.destroy', $item->id) }}" method="POST">
+                {!! method_field('delete') . csrf_field() !!}
+                <button type="submit" class="btn btn-danger">Hapus</button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>    
+@endforeach
+
+        </div>
+    </div>
+</div>
 
 @endsection

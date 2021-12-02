@@ -13,14 +13,13 @@ class PenggajianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $dataGaji = Penggajian::paginate(10);
+        $dataGaji = Penggajian::paginate(5);
 
         return view('penggajian.index', [
             'penggajian' => $dataGaji,
-            'nomor' => 1,
-        ]);
+        ])->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -140,8 +139,9 @@ class PenggajianController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Penggajian $penggajian)
     {
-        //
+        $penggajian->delete();
+        return redirect()->route('penggajian.index')->with('success', 'Data berhasil di dihapus.');
     }
 }

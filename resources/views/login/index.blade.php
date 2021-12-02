@@ -24,7 +24,7 @@
                 <!-- Logo Mulai -->
 
                 <div class="logo d-flex justify-content-center">
-                    <img src="img/login/logo.png" alt="Logo Bank Bpr" width="80px">
+                    <img src="{{ asset('img/login/logo.png') }}" alt="Logo Bank Bpr" width="80px">
                     <div class="title mt-auto mb-auto ms-4">
                         <h5>Aplikasi HRMS Bank BPR Sehat Sejahtera</h5>
                     </div>
@@ -53,7 +53,7 @@
                 <form method="post" action="/postlogin">
                   @csrf
                     <div class="thumbnail mb-3 text-center">
-                        <img src="img/login/profil.png" class="img-thumbnail rounded w-50 h-50">
+                        <img src="{{ asset('img/dashboard/user.png') }}" class=" rounded w-50 h-50">
                     </div>
                     <div class="mb-3">
                       <label for="exampleInputEmail1" class="fw-bold">User ID</label>
@@ -70,21 +70,19 @@
             </div>
             <div class="col-lg tableTable">
 
-                <div class="row w-80">
+                <div class="row w-80 mb-3 mt-2">
                     <div class="col">
                         <div class="input-group align-middle flex-nowrap">
                             <p class="pt-2">Tanggal</p>
-                            <input type="text" class="form-control ms-3" placeholder=" Input Here" aria-label="Input Here" aria-describedby="addon-wrapping">
+                            <input type="date" name="tgl" id="tgl" class="form-control ms-3" placeholder=" Input Here" aria-label="Input Here" aria-describedby="addon-wrapping">
+                            <a href="" onclick="this.href='/login/filter/kegiatan/'+ document.getElementById('tgl').value" class="btn btn-primary btn-auto ms-2">Cari</a>
                         </div>
                     </div>
                     <div class="col">
                         <div class="input-group mb-3">
-                          <p class="pt-2">Tahun</p>
-                          <input type="text" class="form-control ms-3" placeholder="Input Here" aria-label="Input Here" aria-describedby="addon-wrapping">
-                          </div>
+                        </div>
                     </div>
                     <div class="d-grid gap-4 col-2 mx-auto mb-3">
-                      <button type="button" class="btn btn-primary btn-sm">Cari</button>
                     </div>
                 </div>
 
@@ -93,33 +91,47 @@
                     <thead>
                       <tr>
                           <th scope="col" class="table-primary" >Tanggal</th>
-                          <th scope="col" class="table-primary">Kegiatan</th>
+                          <th scope="col" class="table-primary">Jenis</th>
+                          <th scope="col" class="table-primary">Deskripsi</th>
                           <th scope="col" class="table-primary">Status</th>
+                          <th scope="col" class="table-primary">File</th>
                       </tr>
                     </thead>
-                  <tbody>
-                    @forelse($kegiatan as $item)
-                      <tr>
-                          <th scope="row">{{ $item->tanggal }}</th>
-                          <td class="lh-sm">{{ $item->kegiatan }}</td>
-                          @if ($item->status == "Sedang Berlangsung")
-                            <td class="badge bg-success mt-2 ms-2 mb-2 ">{{ $item->status }}</td>
-                          @else
-                            <td class="badge bg-warning mt-2 ms-2 mb-2 ">{{ $item->status }}</td>
-                          @endif
-                      </tr>
+                    <tbody>
+                      @forelse($kegiatan as $item)
+                        <tr>
+                            <th scope="row">{{ $item->tanggal }}</th>
+                            <td class="lh-sm">{{ $item->jenis }}</td>
+                            <td class="lh-sm">{{ $item->deskripsi }}</td>
+                            @if ($item->status == "Sedang Berlangsung")
+                              <td class="badge bg-success mt-2 ms-2 mb-2 me-1">{{ $item->status }}</td>
+                            @elseif ($item->status == "Menunggu")
+                              <td class="badge bg-warning mt-2 ms-2 mb-2 me-1">{{ $item->status }}</td>
+                            @else
+                              <td class="badge bg-danger mt-2 ms-2 mb-2 me-1">{{ $item->status }}</td>
+                            @endif
+                            
+                            @if ($item->file)
+                            <td><a href="{{ route('download-file', $item->id) }}" class="badge bg-danger">PDF</a></td>
+                            @else
+                              <td><a href="#" class="badge bg-danger"></a></td>
+                            @endif
+                        </tr>
 
-                    @empty
-                      <tr>
-                          <td colspan="3" class="border text-center p-5">
-                            Tidak ada kegiatan
-                          </td>
-                      </tr>
-                    @endforelse
-                  </tbody>
+                      @empty
+                        <tr>
+                            <td colspan="3" class="border text-center p-5">
+                              Tidak ada kegiatan
+                            </td>
+                        </tr>
+                      @endforelse
+                    </tbody>
+                 </table>
+                 {{-- {{ $kegiatan->links() }} --}}
               </div>
         </div>
     </div>
+  </div>
 
     <!-- Akhir Tabel -->
 

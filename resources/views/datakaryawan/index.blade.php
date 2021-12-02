@@ -7,12 +7,15 @@
             <div class="container">
               <div class="row">
                   <div class="col">
-                    <div class="logo d-flex justify-content-center mt-4">
-                      <h5 class="fs-1 fw-bold">Data Karyawan</h5>
+                    <div class="container">
+                      <div class="row">
+                          <div class="col">
+                            <div class="logo d-flex justify-content-center mt-4">
+                              <h5 class="fs-1 fw-bold">Data Karyawan</h5>
+                            </div>
+                          </div>
+                      </div>
                     </div>
-                  </div>
-              </div>
-            </div>
               <!-- Text -->
           <div class="col-lg table User me-3 rounded p-2">
             <div class="d-grid gap-2 d-md-flex justify-content-md-star">
@@ -36,10 +39,16 @@
 
                 @if(session()->has('message'))
                   <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
+                    {{ session('message') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                @elseif(session()->has('error'))
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                   </div>
                 @endif
+
                 <table class="table table table-bordered table align-middle mt-1">
                     <thead>
                         <tr>
@@ -53,7 +62,7 @@
                     <tbody>
                         @forelse($user as $item)
                             <tr>
-                                <th scope="row">{{ $nomor++ }}</th>
+                                <th scope="row">{{ ++$i }}</th>
                                 <td class="lh-sm">{{ $item->id_karyawan }}</td>
                                 <td class="lh-sm">{{ $item->name }}</td>
                                 @if ($item->status_karyawan == "Aktif")
@@ -61,7 +70,7 @@
                                 @else
                                   <td class="badge bg-danger mt-2 mb-2 ms-2">{{ $item->status_karyawan }}</td>
                                 @endif
-                                <td><a href="{{ route('users.edit', $item->id) }}" class="badge bg-info text-dark">Detail</a> <a href="#" class="badge bg-danger" data-bs-toggle="modal" data-bs-target="#modalHapusData">Hapus</a></td>
+                                <td><a href="{{ route('users.edit', $item->id) }}" class="badge bg-info text-dark">Detail</a> <a href="#" class="badge bg-danger" data-bs-toggle="modal" data-bs-target="#modalHapusData-{{ $item->id }}">Hapus</a></td>
                             </tr>
 
                         @empty
@@ -73,12 +82,13 @@
                         @endforelse
                     </tbody>
                 </table>
-            </div>
+                {{ $user->links() }}
         </div>
     <!-- Akhir Tabel -->
 
     <!-- Modal -->
-    <div class="modal fade" id="modalHapusData" tabindex="-1" aria-labelledby="exampleModalHapusDataLabel" aria-hidden="true">
+    @foreach ($user as $item)
+    <div class="modal fade" id="modalHapusData-{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalHapusDataLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -90,7 +100,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-            <form method="post" action="{{ route('users.destroy', $item->id) }}">
+            <form method="post" action="{{ route('users.destroy', $item->id_karyawan) }}">
               {!! method_field('delete') . csrf_field() !!}
               <button type="submit" class="btn btn-danger">Hapus</button>
             </form>
@@ -99,6 +109,7 @@
       </div>
     </div>
     <!-- Modal -->
+    @endforeach
 
     <!-- Modal -->
     <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
@@ -131,10 +142,7 @@
                 <div class="row mb-3">
                   <label for="inputTanggal" class="col-sm-2 col-form-label">Tanggal Masuk</label>
                   <div class="col-sm-10">
-                      <input type="text" value="{{ old('tgl_masuk') }}" name="tgl_masuk" class="form-control" id="tgl_masuk" placeholder="Tanggal">
-                      <span id="passwordHelpInline" class="form-text">
-                          Contoh format tanggal: 24 april 2020.
-                      </span>
+                    <input type="date" id="tgl_masuk" name="tgl_masuk">
                   </div>
                 </div>
                 <div class="row mb-3">
@@ -178,10 +186,10 @@
                     </div>
                     </div>
                     <div class="row mb-3">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Tanggal Lahir</label>
-                    <div class="col-sm-10">
-                        <textarea class="form-control" name="tgl_lahir" id="tgl_lahir" rows="3" placeholder=" Masukan Tanggal Lahir">{{ old('tgl_lahir') }}</textarea>
-                    </div>
+                      <label for="inputEmail3" class="col-sm-2 col-form-label">Tanggal Lahir</label>
+                      <div class="col-sm-10">
+                        <input type="date" id="tgl_lahir" name="tgl_lahir">
+                      </div>
                     </div>
                     <div class="row mb-3">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Agama</label>
@@ -219,4 +227,8 @@
   </form>
     <!-- Modal -->
 
+      </div>
+    </div>
+  </div>
+</div>
 @endsection

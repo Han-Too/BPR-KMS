@@ -28,6 +28,7 @@ class User extends Authenticatable
         'status_karyawan',
         'agama',
         'alamat',
+        'role'
     ];
 
     /**

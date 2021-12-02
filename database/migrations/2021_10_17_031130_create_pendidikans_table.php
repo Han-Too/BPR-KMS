@@ -19,9 +19,8 @@ class CreatePendidikansTable extends Migration
             $table->string('jenjang');
             $table->string('institusi_pendidikan');
             $table->string('kota_pendidikan');
-            $table->string('tgl_masuk');
+            $table->date('tgl_masuk');
             $table->string('status');
-            $table->string('tgl_status');
             $table->double('nilai');
             $table->timestamps();
         });

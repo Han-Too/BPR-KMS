@@ -45,10 +45,7 @@
         <div class="row mb-3">
           <label for="inputPassword3" class="col-sm-2 col-form-label">Tanggal Masuk</label>
           <div class="col-sm-10">
-            <input value="{{ $item->tgl_masuk }}" type="text" name="tgl_masuk" class="form-control" id="tgl_masuk" placeholder="Tanggal">
-            <span id="passwordHelpInline" class="form-text">
-              Masukan 6 karakter.
-            </span>
+            <input value="{{ $item->tgl_masuk }}" type="date" id="tgl_masuk" name="tgl_masuk">
           </div>
         </div>
 
@@ -93,7 +90,7 @@
         <div class="row mb-3">
               <label for="inputEmail3" class="col-sm-2 col-form-label">Tanggal Lahir</label>
               <div class="col-sm-10">
-                <textarea class="form-control" name="tgl_lahir" id="tgl_lahir" rows="3" placeholder=" Masukan Tanggal Lahir">{{ $item->tgl_lahir }}</textarea>
+                <input value="{{ $item->tgl_lahir }}" type="date" id="tgl_lahir" name="tgl_lahir">
               </div>
         </div>
         <div class="row mb-3">
@@ -134,7 +131,7 @@
             </div>
       </div>
 
-                  <form action="/postidentitas" method="post" >
+                  <form action="/postidentitas" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal fade" id="exampleModalIdentitas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog modal-xl">
@@ -161,6 +158,12 @@
                                 </div>
                                 </div>
                                 <div class="row mb-3">
+                                  <label for="inputDokumen" class="col-sm-2 col-form-label">Foto Identitas</label>
+                                  <div class="col-sm-10">
+                                      <input type="file" class="form-control" name="identity_picture" id="identity_picture">
+                                  </div>
+                                </div>
+                                <div class="row mb-3">
                                 <label for="input_no_identitas" class="col-sm-2 col-form-label">No Identitas</label>
                                 <div class="col-sm-10">
                                     <textarea class="form-control @error('input_no_identitas') is-invalid @enderror" name="no_identitas" id="no_identitas" rows="3" placeholder="Input Here"></textarea>
@@ -169,13 +172,13 @@
                                 <div class="row mb-3">
                                 <label for="input_tanggal_aktif" class="col-sm-2 col-form-label">Tanggal Aktif</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control @error('input_tanggal_aktif') is-invalid @enderror" name="tanggal_aktif" id="tanggal_aktif" rows="3" placeholder="Input Here"></textarea>
+                                  <input type="date" id="tanggal_aktif" name="tanggal_aktif">
                                 </div>
                                 </div>
                                 <div class="row mb-3">
                                 <label for="input_berlaku_sampai" class="col-sm-2 col-form-label">Berlaku Sampai</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control @error('input_berlaku_sampai') is-invalid @enderror" name="berlaku_sampai" id="berlaku_sampai" rows="3" placeholder="Input Here"></textarea>
+                                    <input type="date" id="berlaku_sampai" name="berlaku_sampai">
                                 </div>
                                 </div>
                                 <div class="modal-footer">
@@ -194,20 +197,32 @@
                     <table class="table table table-bordered ">
                         <tr>
                             <th scope="col" class="table-primary">Identitas</th>
+                            <th scope="col" class="table-primary">Foto Identitas</th>
                             <th scope="col" class="table-primary">No Identitas</th>
                             <th scope="col" class="table-primary">Tanggal Aktif</th>
                             <th scope="col" class="table-primary">Berlaku Sampai</th>
+                            <th scope="col" class="table-primary">Aksi</th>
                         </tr>
                         @forelse($dataidentitas as $itemidentitas)
                             <tr>
                                 <th class="lh-sm">{{ $itemidentitas->identitas }}</th>
+                                @if ($itemidentitas->identity_picture)
+                                  <td class="lh-sm"><a href="#" class="badge bg-info text-light" data-bs-toggle="modal" data-bs-target="#modalPreviewIdentitas-{{ $itemidentitas->id }}">Image</a></td>
+                                @else
+                                  <td class="lh-sm"></td>
+                                @endif
                                 <td class="lh-sm">{{ $itemidentitas->no_identitas }}</td>
                                 <td class="lh-sm">{{ $itemidentitas->tanggal_aktif }}</td>
                                 <td class="lh-sm">{{ $itemidentitas->berlaku_sampai }}</td>
+                                <form action="{{ route('delete.identitas', $itemidentitas->id_karyawan) }}" method="POST">
+                                  @csrf
+                                  @method('delete')
+                                  <td><button type="submit" class="btn badge bg-danger">Hapus</button></td>
+                                </form>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="border text-center p-5">
+                                <td colspan="6" class="border text-center p-5">
                                     Belum ada identitas
                                 </td>
                             </tr>
@@ -273,19 +288,13 @@
                                 <div class="row mb-3">
                                 <label for="inputtgl_masuk" class="col-sm-2 col-form-label">Tanggal Masuk</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" name="tgl_masuk" id="tgl_masuk" rows="3" placeholder="Input Here"></textarea>
+                                    <input type="date" id="tgl_masuk" name="tgl_masuk">
                                 </div>
                                 </div>
                                 <div class="row mb-3">
                                 <label for="inputstatus" class="col-sm-2 col-form-label">Status</label>
                                 <div class="col-sm-10">
                                     <textarea class="form-control" name="status" id="status" rows="3" placeholder="Input Here"></textarea>
-                                </div>
-                                </div>
-                                <div class="row mb-3">
-                                <label for="inputtgl_status" class="col-sm-2 col-form-label">Tanggal Status</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" name="tgl_status" id="tgl_status" rows="3" placeholder="Input Here"></textarea>
                                 </div>
                                 </div>
                                 <div class="row mb-3">
@@ -318,6 +327,7 @@
                           <th scope="col" class="table-primary">Status</th>
                           <th scope="col" class="table-primary">Tanggal Status</th>
                           <th scope="col" class="table-primary">Nilai</th>
+                          <th scope="col" class="table-primary">Aksi</th>
                         </tr>
                         @forelse($datapendidikan as $itempendidikan)
                             <tr>
@@ -328,10 +338,15 @@
                               <td class="lh-sm">{{ $itempendidikan->status }}</td>
                               <td class="lh-sm">{{ $itempendidikan->tgl_status }}</td>
                               <td class="lh-sm">{{ $itempendidikan->nilai }}</td>
+                              <form action="{{ route('delete.pendidikan', $itempendidikan->id) }}" method="POST">
+                                @csrf
+                                @method('delete')
+                                <td><button type="submit" class="btn badge bg-danger">Hapus</button></td>
+                              </form>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="border text-center p-5">
+                                <td colspan="8" class="border text-center p-5">
                                     Belum ada pendiddikan
                                 </td>
                             </tr>
@@ -392,13 +407,13 @@
                                 <div class="row mb-3">
                                   <label for="inputtgl_masuk" class="col-sm-2 col-form-label">Tanggal Masuk</label>
                                   <div class="col-sm-10">
-                                    <textarea class="form-control" name="tgl_masuk" id="tgl_masuk" rows="3" placeholder="Input Here"></textarea>
+                                    <input type="date" id="tgl_masuk" name="tgl_masuk">
                                   </div>
                                 </div>
                                 <div class="row mb-3">
                                   <label for="inputtgl_keluar" class="col-sm-2 col-form-label">Tanggal Keluar</label>
                                   <div class="col-sm-10">
-                                    <textarea class="form-control" name="tgl_keluar" id="tgl_keluar" rows="3" placeholder="Input Here"></textarea>
+                                    <input type="date" id="tgl_keluar" name="tgl_keluar">
                                   </div>
                                 </div>
                                 <div class="row mb-3">
@@ -426,6 +441,7 @@
                             <th scope="col" class="table-primary">Tanggal Masuk</th>
                             <th scope="col" class="table-primary">Tanggal Keluar</th>
                             <th scope="col" class="table-primary">Keluar</th>
+                            <th scope="col" class="table-primary">Aksi</th>
                           </tr>
                           @forelse($datapekerjaan as $itempekerjaan)
                             <tr>
@@ -435,10 +451,15 @@
                               <td class="lh-sm">{{ $itempekerjaan->tgl_masuk }}</td>
                               <td class="lh-sm">{{ $itempekerjaan->tgl_keluar }}</td>
                               <td class="lh-sm">{{ $itempekerjaan->keluar }}</td>
+                              <form action="{{ route('delete.pekerjaan', $itempekerjaan->id) }}" method="POST">
+                                @csrf
+                                @method('delete')
+                                <td><button type="submit" class="btn badge bg-danger">Hapus</button></td>
+                              </form>
                             </tr>
                           @empty
                             <tr>
-                                <td colspan="6" class="border text-center p-5">
+                                <td colspan="7" class="border text-center p-5">
                                     Belum ada pekerjaan
                                 </td>
                             </tr>
@@ -512,16 +533,22 @@
                           <th scope="col" class="table-primary">Institusi</th>
                           <th scope="col" class="table-primary">Sertifikasi</th>
                           <th scope="col" class="table-primary">Tingkat</th>
+                          <th scope="col" class="table-primary">Aksi</th>
                         </tr>
                         @forelse($datasertifikasi as $itemsertifikasi)
                           <tr>
                             <th scope="lh-sm">{{ $itemsertifikasi->institusi_sertifikasi }}</th>
                             <td class="lh-sm">{{ $itemsertifikasi->sertifikasi }}</td>
                             <td class="lh-sm">{{ $itemsertifikasi->tingkat }}</td>
+                            <form action="{{ route('delete.sertifikasi', $itemsertifikasi->id) }}" method="POST">
+                              @csrf
+                              @method('delete')
+                              <td><button type="submit" class="btn badge bg-danger">Hapus</button></td>
+                            </form>
                           </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="border text-center p-5">
+                                <td colspan="4" class="border text-center p-5">
                                     Belum ada sertifikasi
                                 </td>
                             </tr>
@@ -529,6 +556,24 @@
                       </table>
                     </div>
 </div>
+
+@foreach ($dataidentitas as $data)
+  <div class="modal fade" id="modalPreviewIdentitas-{{ $data->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">{{ $item->name }}</h5>
+        </div>
+        <div class="modal-body">
+          <img src="{{ asset('storage/' . $data->identity_picture) }}" class="img-fluid mb-2">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>  
+@endforeach
 
 <script type="text/javascript">
   function previewImage() {
@@ -544,6 +589,7 @@
       imgPreview.src = oFREvent.target.result;
     }
   }
+  
 </script>
 
 @endsection

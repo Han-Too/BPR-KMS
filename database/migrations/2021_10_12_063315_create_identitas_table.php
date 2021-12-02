@@ -16,10 +16,11 @@ class CreateIdentitasTable extends Migration
         Schema::create('identitas', function (Blueprint $table) {
             $table->id();
             $table->string('id_karyawan');
+            $table->string('identity_picture')->nullable();
             $table->string('identitas');
             $table->string('no_identitas');
-            $table->string('tanggal_aktif');
-            $table->string('berlaku_sampai');
+            $table->date('tanggal_aktif');
+            $table->date('berlaku_sampai');
             $table->timestamps();
         });
     }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Presensi;
+use App\Models\PresensiBulanan;
 use Illuminate\Http\Request;
 
 class PresensiController extends Controller
@@ -11,9 +13,16 @@ class PresensiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('presensi.index');
+        $presensiHarian = Presensi::with('user')->latest()->paginate(5);
+        $presensiBulanan = PresensiBulanan::with('user')->latest()->paginate(5);
+
+        return view('presensi.index', [
+            'dataHarian' => $presensiHarian,
+            'dataBulanan' => $presensiBulanan,
+        ])->with('tabel1', ($request->input('page', 1) - 1) * 5)
+        ->with('tabel2', ($request->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -80,5 +89,40 @@ class PresensiController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function filterPresensi(Request $request, $filter1, $filter2, $kode)
+    {
+        if (($filter1 == null) || ($filter2 == null))
+        {
+            $presensiHarian = Presensi::with('user')->latest()->paginate(5);
+            $presensiBulanan = PresensiBulanan::with('user')->latest()->paginate(5); 
+        } else {
+            if ($kode == 1) 
+            {
+                $presensiHarian = Presensi::with('user')->whereBetween('waktu', [$filter1, $filter2])->get();
+                $presensiBulanan = PresensiBulanan::with('user')->paginate(5);
+
+            }elseif($kode == 2)
+            {
+                $presensiHarian = Presensi::with('user')->latest()->paginate(5);
+                $presensiBulanan = PresensiBulanan::with('user')->whereBetween('tgl', [$filter1, $filter2])->latest()->paginate(5);
+            }
+        }
+
+        return view('presensi.index', [
+            'dataHarian' => $presensiHarian,
+            'dataBulanan' => $presensiBulanan,
+        ])->with('tabel1', ($request->input('page', 1) - 1) * 5)
+        ->with('tabel2', ($request->input('page', 1) - 1) * 5);
+    }
+
+    public function cetakPresensiPertanggal($tglawal, $tglakhir)
+    {
+        $dataCetak = PresensiBulanan::with('user')->whereBetween('tgl', [$tglawal, $tglakhir])->get();
+        return view('presensi.cetak-presensi', [
+            'dataCetak' => $dataCetak, 
+            'nomor' => 1,
+        ]);
     }
 }
