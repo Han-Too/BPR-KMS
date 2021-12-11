@@ -29,7 +29,13 @@
            {{ session('inputError') }}
            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-       @endif
+      @elseif(session()->has('message'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          {{ session('message') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      @endif
+
       <form action="{{ route('users.update', $item->id) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('put')
@@ -103,11 +109,9 @@
               <label for="inputPassword3" class="col-sm-2 col-form-label">Status Karyawan</label>
               <div class="col-sm-10">
                 <select class="form-select" name="status_karyawan">
-                    @if("Aktif" == $item->status_karyawan)
-                      <option value="Aktif" selected>Aktif</option>
-                    @endif
-                      <option value="Tidak Aktif">Tidak Aktif</option>
-                      <option value="Aktif">Aktif</option>
+                  <option value="{{$item->status_karyawan}}" selected>{{$item->status_karyawan}}</option>
+                  <option value="Tidak Aktif">Tidak Aktif</option>
+                  <option value="Aktif">Aktif</option>
                 </select>
               </div>
         </div>
@@ -143,13 +147,13 @@
                           <div class="modal-body">
                                 <div class="row mb-3">
                                 <label for="inputPassword3" class="col-sm-2 col-form-label">ID Karyawan</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-5">
                                     <textarea readonly class="form-control" name="id_karyawan" id="id_karyawan" rows="3" placeholder="Input Here">{{ $item->id_karyawan }}</textarea>
                                 </div>
                                 </div>
                                 <div class="row mb-3">
                                 <label for="inputidentitas" class="col-sm-2 col-form-label">Identitas</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-5">
                                 <select class="form-select" name="identitas">
                                     <option selected>Pilih Identitas</option>
                                     <option value="KTP">KTP</option>
@@ -159,25 +163,25 @@
                                 </div>
                                 <div class="row mb-3">
                                   <label for="inputDokumen" class="col-sm-2 col-form-label">Foto Identitas</label>
-                                  <div class="col-sm-10">
+                                  <div class="col-sm-5">
                                       <input type="file" class="form-control" name="identity_picture" id="identity_picture">
                                   </div>
                                 </div>
                                 <div class="row mb-3">
                                 <label for="input_no_identitas" class="col-sm-2 col-form-label">No Identitas</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-5">
                                     <textarea class="form-control @error('input_no_identitas') is-invalid @enderror" name="no_identitas" id="no_identitas" rows="3" placeholder="Input Here"></textarea>
                                 </div>
                                 </div>
                                 <div class="row mb-3">
                                 <label for="input_tanggal_aktif" class="col-sm-2 col-form-label">Tanggal Aktif</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-5">
                                   <input type="date" id="tanggal_aktif" name="tanggal_aktif">
                                 </div>
                                 </div>
                                 <div class="row mb-3">
                                 <label for="input_berlaku_sampai" class="col-sm-2 col-form-label">Berlaku Sampai</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-5">
                                     <input type="date" id="berlaku_sampai" name="berlaku_sampai">
                                 </div>
                                 </div>
@@ -207,14 +211,14 @@
                             <tr>
                                 <th class="lh-sm">{{ $itemidentitas->identitas }}</th>
                                 @if ($itemidentitas->identity_picture)
-                                  <td class="lh-sm"><a href="#" class="badge bg-info text-light" data-bs-toggle="modal" data-bs-target="#modalPreviewIdentitas-{{ $itemidentitas->id }}">Image</a></td>
+                                  <td class="lh-sm"><a href="#" class="badge bg-info text-light" data-bs-toggle="modal" data-bs-target="#modalPreviewIdentitas-{{ $itemidentitas->id }}">{{$itemidentitas->identitas}}</a></td>
                                 @else
                                   <td class="lh-sm"></td>
                                 @endif
                                 <td class="lh-sm">{{ $itemidentitas->no_identitas }}</td>
                                 <td class="lh-sm">{{ $itemidentitas->tanggal_aktif }}</td>
                                 <td class="lh-sm">{{ $itemidentitas->berlaku_sampai }}</td>
-                                <form action="{{ route('delete.identitas', $itemidentitas->id_karyawan) }}" method="POST">
+                                <form action="{{ route('delete.identitas', $itemidentitas->id) }}" method="POST">
                                   @csrf
                                   @method('delete')
                                   <td><button type="submit" class="btn badge bg-danger">Hapus</button></td>
@@ -263,43 +267,43 @@
                           <div class="modal-body">
                             <div class="row mb-3">
                                 <label for="inputPassword3" class="col-sm-2 col-form-label">ID Karyawan</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-6">
                                     <textarea readonly class="form-control" name="id_karyawan" id="id_karyawan" rows="3" placeholder="Input Here">{{ $item->id_karyawan }}</textarea>
                                 </div>
                                 </div>
                                 <div class="row mb-3">
                                 <label for="inputjenjang" class="col-sm-2 col-form-label">Jenjang</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-6">
                                     <textarea class="form-control" name="jenjang" id="jenjang" rows="3" placeholder="Input Here"></textarea>
                                 </div>
                                 </div>
                                 <div class="row mb-3">
                                 <label for="inputinstitusi" class="col-sm-2 col-form-label">Istitusi</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-6">
                                     <textarea class="form-control" name="institusi_pendidikan" id="institusi_pendidikan" rows="3" placeholder="Input Here"></textarea>
                                 </div>
                                 </div>
                                 <div class="row mb-3">
                                 <label for="inputkota" class="col-sm-2 col-form-label">Kota</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-6">
                                     <textarea class="form-control" name="kota_pendidikan" id="kota_pendidikan" rows="3" placeholder="Input Here"></textarea>
                                 </div>
                                 </div>
                                 <div class="row mb-3">
                                 <label for="inputtgl_masuk" class="col-sm-2 col-form-label">Tanggal Masuk</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-6">
                                     <input type="date" id="tgl_masuk" name="tgl_masuk">
                                 </div>
                                 </div>
                                 <div class="row mb-3">
                                 <label for="inputstatus" class="col-sm-2 col-form-label">Status</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-6">
                                     <textarea class="form-control" name="status" id="status" rows="3" placeholder="Input Here"></textarea>
                                 </div>
                                 </div>
                                 <div class="row mb-3">
                                 <label for="inputnilai" class="col-sm-2 col-form-label">Nilai</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-6">
                                     <textarea class="form-control" name="nilai" id="nilai" rows="3" placeholder="Input Here"></textarea>
                                     <span class="form-text">
                                       Pisahkan dengan tanda (.) .Contoh: 8.0
@@ -325,7 +329,6 @@
                           <th scope="col" class="table-primary">Kota</th>
                           <th scope="col" class="table-primary">Tanggal Masuk</th>
                           <th scope="col" class="table-primary">Status</th>
-                          <th scope="col" class="table-primary">Tanggal Status</th>
                           <th scope="col" class="table-primary">Nilai</th>
                           <th scope="col" class="table-primary">Aksi</th>
                         </tr>
@@ -336,7 +339,6 @@
                               <td class="lh-sm">{{ $itempendidikan->kota_pendidikan }}</td>
                               <td class="lh-sm">{{ $itempendidikan->tgl_masuk }}</td>
                               <td class="lh-sm">{{ $itempendidikan->status }}</td>
-                              <td class="lh-sm">{{ $itempendidikan->tgl_status }}</td>
                               <td class="lh-sm">{{ $itempendidikan->nilai }}</td>
                               <form action="{{ route('delete.pendidikan', $itempendidikan->id) }}" method="POST">
                                 @csrf
@@ -382,43 +384,43 @@
                               <div class="modal-body">
                                 <div class="row mb-3">
                                 <label for="inputPassword3" class="col-sm-2 col-form-label">ID Karyawan</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-6">
                                     <textarea readonly class="form-control" name="id_karyawan" id="id_karyawan" rows="3" placeholder="Input Here">{{ $item->id_karyawan }}</textarea>
                                 </div>
                                 </div>
                                 <div class="row mb-3">
                                   <label for="inputinstitusi" class="col-sm-2 col-form-label">Institusi</label>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-6">
                                     <textarea class="form-control" name="institusi_pekerjaan" id="institusi_pekerjaan" rows="3" placeholder="Input Here"></textarea>
                                   </div>
                                 </div>
                                 <div class="row mb-3">
                                   <label for="inputkota" class="col-sm-2 col-form-label">Kota</label>
-                                  <div class="col-sm-10">
+                                  <div class="col-sm-6">
                                     <textarea class="form-control" name="kota_pekerjaan" id="kota_pekerjaan" rows="3" placeholder="Input Here"></textarea>
                                   </div>
                                 </div>
                                 <div class="row mb-3">
                                   <label for="inputjabatan" class="col-sm-2 col-form-label">Jabatan</label>
-                                  <div class="col-sm-10">
+                                  <div class="col-sm-6">
                                     <textarea class="form-control" name="jabatan" id="jabatan" rows="3" placeholder="Input Here"></textarea>
                                   </div>
                                 </div>
                                 <div class="row mb-3">
                                   <label for="inputtgl_masuk" class="col-sm-2 col-form-label">Tanggal Masuk</label>
-                                  <div class="col-sm-10">
+                                  <div class="col-sm-6">
                                     <input type="date" id="tgl_masuk" name="tgl_masuk">
                                   </div>
                                 </div>
                                 <div class="row mb-3">
                                   <label for="inputtgl_keluar" class="col-sm-2 col-form-label">Tanggal Keluar</label>
-                                  <div class="col-sm-10">
+                                  <div class="col-sm-6">
                                     <input type="date" id="tgl_keluar" name="tgl_keluar">
                                   </div>
                                 </div>
                                 <div class="row mb-3">
                                   <label for="inputkeluar" class="col-sm-2 col-form-label">Keluar</label>
-                                  <div class="col-sm-10">
+                                  <div class="col-sm-6">
                                     <textarea class="form-control" name="keluar" id="keluar" rows="3" placeholder="Input Here"></textarea>
                                   </div>
                                 </div>
@@ -495,25 +497,25 @@
                             <div class="modal-body">
                               <div class="row mb-3">
                                 <label for="inputPassword3" class="col-sm-2 col-form-label">ID Karyawan</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-6">
                                     <textarea readonly class="form-control" name="id_karyawan" id="id_karyawan" rows="3" placeholder="Input Here">{{ $item->id_karyawan }}</textarea>
                                 </div>
                                 </div>
                               <div class="row mb-3">
                                 <label for="inputinstitusi" class="col-sm-2 col-form-label">Institusi</label>
-                                  <div class="col-sm-10">
+                                  <div class="col-sm-6">
                                   <textarea class="form-control" name="institusi_sertifikasi" id="institusi_sertifikasi" rows="3" placeholder="Input Here"></textarea>
                                 </div>
                               </div>
                               <div class="row mb-3">
                                 <label for="inputsertifikasi" class="col-sm-2 col-form-label">Sertifikasi</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-6">
                                   <textarea class="form-control" name="sertifikasi" id="sertifikasi" rows="3" placeholder="Input Here"></textarea>
                                 </div>
                               </div>
                               <div class="row mb-3">
                                 <label for="inputtingkat" class="col-sm-2 col-form-label">Tingkat</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-6">
                                   <textarea class="form-control" name="tingkat" id="tingkat" rows="3" placeholder="Input Here"></textarea>
                                 </div>
                               </div>

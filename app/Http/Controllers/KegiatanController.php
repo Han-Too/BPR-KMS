@@ -50,7 +50,9 @@ class KegiatanController extends Controller
 
         if ($request->file)
         {
-            $dataKegiatan['file'] = $request->file('file')->store('post-file');
+            $files = $request->file('file');
+            $originalFileName = $files->getClientOriginalName();
+            $dataKegiatan['file'] = $files->storeAs('post-file', $originalFileName);
         }
 
         Kegiatan::create($dataKegiatan);
@@ -104,7 +106,9 @@ class KegiatanController extends Controller
                 Storage::delete($request->oldFile);
             }
 
-            $dataKegiatan['file'] = $request->file('file')->store('post-file');
+            $files = $request->file('file');
+            $originalFileName = $files->getClientOriginalName();
+            $dataKegiatan['file'] = $files->storeAs('post-file', $originalFileName);
         }
 
         $kegiatan->update($dataKegiatan);

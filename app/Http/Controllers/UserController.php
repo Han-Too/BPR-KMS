@@ -8,6 +8,7 @@ use App\Models\Pendidikan;
 use App\Models\Sertifikasi;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,6 +21,12 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+
+        if (Auth::user()->role == "Karyawan")
+        {
+            return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
+        }
+
         $user = User::paginate(5);
 
         return view('datakaryawan.index', [
@@ -72,7 +79,9 @@ class UserController extends Controller
 
         if ($request->profile_photo_path != null)
         {
-            $datauser['profile_photo_path'] = $request->file('profile_photo_path')->store('post-image-profile');
+            $files = $request->file('profile_photo_path');
+            $originalFileName = $files->getClientOriginalName();
+            $datauser['profile_photo_path'] = $files->storeAs('post-image-profile', $originalFileName);
         }
             
         User::create($datauser);
@@ -100,10 +109,12 @@ class UserController extends Controller
         {
             if ($request->identity_picture != null)
             {
-                $dataIdentitas['identity_picture'] = $request->file('identity_picture')->store('post-image-identitas');
+                $files = $request->file('identity_picture');
+                $originalFileName = $files->getClientOriginalName();
+                $dataIdentitas['identity_picture'] = $files->storeAs('post-image-identitas', $originalFileName);
             }
             Identitas::create($dataIdentitas);
-            return back();
+            return back()->with('message', 'Data berhasil di tambahkan.');
         } else {
             return back()->with('inputError', 'Data identitas sudah ada !');
         }
@@ -130,7 +141,7 @@ class UserController extends Controller
         if($cekPendidikan == null)
         {
             Pendidikan::create($datapendidikan);
-            return back();
+            return back()->with('message', 'Data berhasil di tambahkan.');
         } else {
             return back()->with('inputError', 'Data pendidikan sudah ada !');
         }   
@@ -157,7 +168,7 @@ class UserController extends Controller
         if($cekPekerjaan == null)
         {
             Pekerjaan::create($datapekerjaan);
-            return back();
+            return back()->with('message', 'Data berhasil di tambahkan.');
         } else {
             return back()->with('inputError', 'Data pekerjaan sudah ada !');
         }
@@ -181,7 +192,7 @@ class UserController extends Controller
         if($cekSertifikasi == null)
         {
             Sertifikasi::create($datasertifikasi);
-            return back();
+            return back()->with('message', 'Data berhasil di tambahkan.');
         } else {
             return back()->with('inputError', 'Data sertifikasi sudah ada !');
         }
@@ -206,6 +217,12 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+
+        if ((Auth::user()->id != $user->id) && (Auth::user()->role === 'Karyawan'))
+        {
+            return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
+        }
+
         $identitas = DB::table('identitas')->where('id_karyawan', $user->id_karyawan)->get();
         $pendidikan = DB::table('pendidikans')->where('id_karyawan', $user->id_karyawan)->get();
         $pekerjaan = DB::table('pekerjaans')->where('id_karyawan', $user->id_karyawan)->get();
@@ -247,11 +264,13 @@ class UserController extends Controller
             {
                 Storage::delete($request->oldImage);
             }
-            $datauser['profile_photo_path'] = $request->file('profile_photo_path')->store('post-image-profile');
+            $files = $request->file('profile_photo_path');
+            $originalFileName = $files->getClientOriginalName();
+            $datauser['profile_photo_path'] = $files->storeAs('post-image-profile', $originalFileName);
         }
 
         $user->update($datauser);
-        return redirect()->route("menu-karyawan");
+        return redirect()->route("menu-karyawan")->with('message', 'Data berhasil di ubah.');
     }
 
     /**
@@ -319,7 +338,7 @@ class UserController extends Controller
             DB::table('penggajians')->where('id_karyawan', $id_karyawan)->delete();
         }
 
-        return redirect()->route("menu-karyawan");
+        return redirect()->route("menu-karyawan")->with('message', 'Data berhasil di hapus.');
     }
 
     public function destroyIdentitas($id)
@@ -330,27 +349,27 @@ class UserController extends Controller
             Storage::delete($identitas->identity_picture);
         }
         $identitas->delete();
-        return back();
+        return back()->with('message', 'Data berhasil di hapus.');
     }
 
     public function destroyPendidikan($id)
     {
         $pendidikan = Pendidikan::findOrFail($id);
         $pendidikan->delete();
-        return back();
+        return back()->with('message', 'Data berhasil di hapus.');
     }
 
     public function destroyPekerjaan($id)
     {
         $pekerjaan = Pekerjaan::findOrFail($id);
         $pekerjaan->delete();
-        return back();
+        return back()->with('message', 'Data berhasil di hapus.');
     }
 
     public function destroySertifikasi($id)
     {
         $sertifikasi = Sertifikasi::findOrFail($id);
         $sertifikasi->delete();
-        return back();
+        return back()->with('message', 'Data berhasil di hapus.');
     }
 }

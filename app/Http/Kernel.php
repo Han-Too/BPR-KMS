@@ -63,9 +63,10 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'is_staf_SDM' => \App\Http\Middleware\IsStafSDM::class,
         'is_kabag_SDM' => \App\Http\Middleware\IsKabagSDM::class,
-        'is_karyawan' => \App\Http\Middleware\IsKaryawan::class,
-        'is_admin' => \App\Http\Middleware\IsAdmin::class
+        'is_admin' => \App\Http\Middleware\IsAdmin::class,
+        'akses_kelola_data_karyawan' => \App\Http\Middleware\AksesKelolaDataKaryawan::class,
+        'akses_presensi' => \App\Http\Middleware\AksesPresensi::class,
+        'akses_pelaporan_kegiatan' => \App\Http\Middleware\AksesPelaporanKegiatan::class,
     ];
 }

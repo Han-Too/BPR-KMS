@@ -15,19 +15,19 @@
                 </div>
               </div>
 
-        {{-- <div class="col-lg tableTable mt-4">
+        <div class="col-lg tableTable mt-4">
             <div class="row align-center">
             <div class="col-lg-1 inputText me-3">
                 <p class="fw-bold">TANGGAL</p>
             </div>
             
             <div class="col inputBox me-3">
-                <input type="date" id="filter1" name="filter1">&nbsp;<b>SAMPAI</b>&nbsp;
-                <input type="date" id="filter2" name="filter2">
-                <a href="" onclick="this.href='/filter-presensi/'+ document.getElementById('filter1').value + '/' + document.getElementById('filter2').value + '/' + 1" class="btn btn-primary ms-2">Cari</a>
-            </div>
-            </div>
-        </div> --}}
+              <input type="datetime-local" id="tgl1" name="tgl1">&nbsp;<b>SAMPAI</b>&nbsp;
+              <input type="datetime-local" id="tgl2" name="tgl2">
+              <a href="" onclick="this.href='/filter-presensi-harian/'+ document.getElementById('tgl1').value + '/' + document.getElementById('tgl2').value" class="btn btn-primary ms-2">Cari</a>
+          </div>
+          </div>
+        </div>
 
         <div class="row align-items-center mt-2">
             <div class="col">
@@ -60,26 +60,7 @@
             </table>
             {{ $dataHarian->links() }}
         </div>
-
-        {{-- <div class="col-lg tableTable">
-            <div class="row align-center">
-              <div class="col-lg-2 inputText me-1">
-                <p>TANGGAL AWAL</p>
-              </div>
-              <div class="col inputBox me-3">
-                <input type="date" id="filter1" name="filter1">
-              </div>
-            </div>
-            <div class="row align-center">
-              <div class="col-lg-2 inputText me-1">
-                <p>TANGGAL AKHIR</p>
-              </div>
-              <div class="col inputBox me-3">
-                <input type="date" id="filter2" name="filter2">
-                <a href="" onclick="this.href='/filter-presensi/'+ document.getElementById('filter1').value + '/' + document.getElementById('filter2').value + '/' + 2" class="btn btn-primary ms-2">Cari</a>
-              </div>
-            </div>
-        </div> --}}
+        
         <div class="col-lg tableTable mt-4">
           <div class="row align-center">
           <div class="col-lg-1 inputText me-3">
@@ -89,7 +70,7 @@
           <div class="col inputBox me-3">
               <input type="date" id="filter1" name="filter1">&nbsp;<b>SAMPAI</b>&nbsp;
               <input type="date" id="filter2" name="filter2">
-              <a href="" onclick="this.href='/filter-presensi/'+ document.getElementById('filter1').value + '/' + document.getElementById('filter2').value + '/' + 2" class="btn btn-primary ms-2">Cari</a>
+              <a href="" onclick="this.href='/filter-presensi-bulanan/'+ document.getElementById('filter1').value + '/' + document.getElementById('filter2').value" class="btn btn-primary ms-2">Cari</a>
           </div>
           </div>
         </div>

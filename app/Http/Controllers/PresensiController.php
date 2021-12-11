@@ -15,8 +15,8 @@ class PresensiController extends Controller
      */
     public function index(Request $request)
     {
-        $presensiHarian = Presensi::with('user')->latest()->paginate(5);
-        $presensiBulanan = PresensiBulanan::with('user')->latest()->paginate(5);
+        $presensiHarian = Presensi::with('user')->paginate(5);
+        $presensiBulanan = PresensiBulanan::with('user')->paginate(5);
 
         return view('presensi.index', [
             'dataHarian' => $presensiHarian,
@@ -91,23 +91,33 @@ class PresensiController extends Controller
         //
     }
 
-    public function filterPresensi(Request $request, $filter1, $filter2, $kode)
+    public function filterPresensiHarian(Request $request, $tgl1, $tgl2)
+    {
+        if (($tgl1 == null) || ($tgl2 == null))
+        {
+            $presensiHarian = Presensi::with('user')->latest()->paginate(5);
+            $presensiBulanan = PresensiBulanan::with('user')->latest()->paginate(5); 
+        } else {
+            $presensiHarian = Presensi::with('user')->whereBetween('waktu', [$tgl1, $tgl2])->latest()->paginate(5);
+            $presensiBulanan = PresensiBulanan::with('user')->latest()->paginate(5);
+        }
+
+        return view('presensi.index', [
+            'dataHarian' => $presensiHarian,
+            'dataBulanan' => $presensiBulanan,
+        ])->with('tabel1', ($request->input('page', 1) - 1) * 5)
+        ->with('tabel2', ($request->input('page', 1) - 1) * 5);
+    }
+
+    public function filterPresensiBulanan(Request $request, $filter1, $filter2)
     {
         if (($filter1 == null) || ($filter2 == null))
         {
             $presensiHarian = Presensi::with('user')->latest()->paginate(5);
             $presensiBulanan = PresensiBulanan::with('user')->latest()->paginate(5); 
         } else {
-            if ($kode == 1) 
-            {
-                $presensiHarian = Presensi::with('user')->whereBetween('waktu', [$filter1, $filter2])->get();
-                $presensiBulanan = PresensiBulanan::with('user')->paginate(5);
-
-            }elseif($kode == 2)
-            {
-                $presensiHarian = Presensi::with('user')->latest()->paginate(5);
-                $presensiBulanan = PresensiBulanan::with('user')->whereBetween('tgl', [$filter1, $filter2])->latest()->paginate(5);
-            }
+            $presensiHarian = Presensi::with('user')->latest()->paginate(5);
+            $presensiBulanan = PresensiBulanan::with('user')->whereBetween('tgl', [$filter1, $filter2])->latest()->paginate(5);
         }
 
         return view('presensi.index', [

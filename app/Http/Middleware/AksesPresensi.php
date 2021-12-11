@@ -4,8 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class IsKaryawan
+class AksesPresensi
 {
     /**
      * Handle an incoming request.
@@ -16,10 +17,12 @@ class IsKaryawan
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->check() || auth()->user()->role !== 'Karyawan')
+        if ((Auth::user()->role === 'Kabag SDM') || (Auth::user()->role === 'Staf SDM'))
         {
-            abort(403);
+            return $next($request);
+
         }
-        return $next($request);
+
+        return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
     }
 }

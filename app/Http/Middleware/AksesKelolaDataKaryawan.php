@@ -6,8 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
-class IsAdmin
+class AksesKelolaDataKaryawan
 {
     /**
      * Handle an incoming request.
@@ -18,11 +17,13 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->role === 'Administrator')
+        if ((Auth::user()->role === 'Kabag SDM') || (Auth::user()->role === 'Staf SDM') || (Auth::user()->role === 'Karyawan'))
         {
             return $next($request);
+
         }
 
         return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
+
     }
 }

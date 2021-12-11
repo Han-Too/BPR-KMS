@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="{{ ('css/login/bootstrap.min.css') }}">
 
+    <link rel="icon" href="{{ asset('img/dashboard/logo_bpr.png') }}">
     <title>Bank BPR Sehat Sejahtera | Login</title>
   </head>
   <body>

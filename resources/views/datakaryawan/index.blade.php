@@ -70,7 +70,7 @@
                                 @else
                                   <td class="badge bg-danger mt-2 mb-2 ms-2">{{ $item->status_karyawan }}</td>
                                 @endif
-                                <td><a href="{{ route('users.edit', $item->id) }}" class="badge bg-info text-dark">Detail</a> <a href="#" class="badge bg-danger" data-bs-toggle="modal" data-bs-target="#modalHapusData-{{ $item->id }}">Hapus</a></td>
+                                  <td><a href="{{ route('users.edit', $item->id) }}" class="badge bg-info text-dark">Detail</a> <a href="#" class="badge bg-danger" data-bs-toggle="modal" data-bs-target="#modalHapusData-{{ $item->id }}">Hapus</a></td>
                             </tr>
 
                         @empty

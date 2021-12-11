@@ -44,19 +44,19 @@
                                     @elsecan('staf-sdm')
                                         <div class="sb-sidenav-menu-heading pb-1 pt-1">Staf sdm</div>
                                         <hr style="height: 2px">
-                                        <a class="nav-link" href="{{ route('kegiatan.index') }}">
-                                            Pelaporan Dan Kegiatan
+                                        <a class="nav-link" href="{{ route("menu-karyawan") }}">
+                                            Data Karyawan
                                         </a>
                                         <a class="nav-link" href="{{ route('presensi.index') }}">
                                             Presensi
                                         </a>
-                                        <a class="nav-link" href="{{ route("menu-karyawan") }}">
-                                            Data Karyawan
+                                        <a class="nav-link" href="{{ route('kegiatan.index') }}">
+                                            Pelaporan Dan Kegiatan
                                         </a>
                                     @elsecan('is-karyawan')
                                         <div class="sb-sidenav-menu-heading pb-1 pt-1">Karyawan</div>
                                         <hr style="height: 2px">
-                                        <a class="nav-link" href="{{ route("menu-karyawan") }}">
+                                        <a class="nav-link" href="{{ route('users.edit', Auth::user()->id) }}">
                                             Data Karyawan
                                         </a>
                                     @elsecan('admin')

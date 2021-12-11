@@ -17,10 +17,11 @@ class IsKabagSDM
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check() || Auth::user()->role !== 'Kabag SDM')
+        if (Auth::user()->role === 'Kabag SDM')
         {
-            abort(403);
+            return $next($request);
         }
-        return $next($request);
+
+        return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
     }
 }

@@ -14,6 +14,7 @@ class CreatePresensiBulanansTable extends Migration
     public function up()
     {
         Schema::create('presensi_bulanans', function (Blueprint $table) {
+            $table->id();
             $table->string('id_karyawan');
             $table->integer('total_masuk');
             $table->integer('total_izin');
