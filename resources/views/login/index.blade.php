@@ -121,7 +121,7 @@
 
                       @empty
                         <tr>
-                            <td colspan="3" class="border text-center p-5">
+                            <td colspan="5" class="border text-center p-5">
                               Tidak ada kegiatan
                             </td>
                         </tr>
