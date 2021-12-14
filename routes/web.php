@@ -6,6 +6,7 @@ use App\Http\Controllers\KelolaUserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\PresensiController;
+use App\Http\Controllers\sideBarController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,8 +29,9 @@ Route::get('/login/filter/kegiatan/{tgl}', [LoginController::class, 'filterkegia
 
 Route::get('kegiatan/download/file/{id}', [KegiatanController::class, 'downloadFile'])->name('download-file');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
 
 Route::middleware(['auth','akses_kelola_data_karyawan'])->group(function () {
     Route::get('/menu-karyawan', [UserController::class, 'index'])->name("menu-karyawan");
