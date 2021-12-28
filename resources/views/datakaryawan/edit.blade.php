@@ -211,7 +211,7 @@
                             <tr>
                                 <th class="lh-sm">{{ $itemidentitas->identitas }}</th>
                                 @if ($itemidentitas->identity_picture)
-                                  <td class="lh-sm"><a href="#" class="badge bg-info text-light" data-bs-toggle="modal" data-bs-target="#modalPreviewIdentitas-{{ $itemidentitas->id }}">{{$itemidentitas->identitas}}</a></td>
+                                  <td class="lh-sm"><button type="submit" class="btn badge bg-info text-light" data-bs-toggle="modal" data-bs-target="#modalPreviewIdentitas-{{ $itemidentitas->id }}">{{$itemidentitas->identitas}}</button></td>
                                 @else
                                   <td class="lh-sm"></td>
                                 @endif
