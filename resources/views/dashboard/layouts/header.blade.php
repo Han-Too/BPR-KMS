@@ -2,7 +2,7 @@
     <!-- Navbar Brand-->
     <img src="{{ asset('img/dashboard/logo_bpr.png') }}" class="rounded 6 ms-2" alt="Logo Bank Bpr" width="34px">
     <a class="navbar-brand ps-2" href="{{ route('dashboard')}}">
-      HRMS (Human Resource Management System)
+      KMS (Knowledge Management System)
       <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
     </a>
     <!-- Sidebar Toggle-->

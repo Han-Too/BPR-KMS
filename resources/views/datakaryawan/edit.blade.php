@@ -121,7 +121,17 @@
                 <textarea class="form-control" name="alamat" id="alamat" rows="3" placeholder="Masukan Alamat">{{ $item->alamat }}</textarea>
               </div>
         </div>
-
+        <div class="row mb-3">
+        <label for="inputEmail3" class="col-sm-2 col-form-label">Role</label>
+              <div class="col-sm-10">
+                            <select class="form-select" name="role">
+                                <option selected value="">Pilih Role Baru</option>
+                                <option value="Staf SDM">Staf SDM</option>
+                                <option value="Kabag SDM">Kabag SDM</option>
+                                <option value="Operator">Operator</option>
+                                <option value="Administrator">Administrator</option>
+                            </select> 
+                        </div></div>
         <div class="col-lg table User me-3 rounded p-1">
               <div class="d-grid gap-2 d-md-flex justify-content-md-start">
                 <button class="btn btn-primary me-md-2" type="submit">Simpan</button>

@@ -23,10 +23,9 @@ class CreateUsersTable extends Migration
             $table->string('tempat');
             $table->date('tgl_lahir');
             $table->string('status_karyawan');
-            $table->string('agama');
             $table->string('alamat');
             $table->string('password');
-            $table->string('role')->nullable();
+            $table->string('role');
             $table->rememberToken();
             $table->timestamps();
         });

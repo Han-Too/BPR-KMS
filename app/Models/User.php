@@ -25,10 +25,10 @@ class User extends Authenticatable
         'profile_photo_path',
         'tempat',
         'tgl_lahir',
-        'status_karyawan',
         'agama',
+        'status_karyawan',
         'alamat',
-        'role'
+        'role',
     ];
 
     /**

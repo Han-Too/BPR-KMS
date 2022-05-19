@@ -9,34 +9,32 @@
                     <div class="row">
                         <div class="col">
                           <div class="logo d-flex justify-content-center mt-4">
-                            <h5 class="fs-1 fw-bold">Kelola Data Kegiatan</h5>
+                            <h5 class="fs-1 fw-bold">Kelola Data Peraturan</h5>
                           </div>
                         </div>
                     </div>
                 </div>
               
                 <fieldset class="row mb-1 mt-3">
-                  <legend class="col-form-label col-sm-2 pt-1 fw-bold">TANGGAL</legend>
-                  <div class="col inputBox me-3 ">
+                  <legend class="col-form-label col-sm-2 pt-0 fw-bold">TANGGAL</legend>
+                  <div class="col inputBox me-3">
                     <input type="date" id="tgl" name="tgl">
-                    <a href="" onclick="this.href='/filter/kegiatan/'+ document.getElementById('tgl').value" class="btn btn-primary ms-3">Cari</a>
-                    <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#modalkegiatan">
-                      Tambah
-                      </button>
+                    <a href="" onclick="this.href='/filter/peraturan/'+ document.getElementById('tgl').value" class="btn btn-primary ms-3">Cari</a>
                   </div>
-                  
                 </fieldset>
               
-                      {{-- <!-- Button trigger modal -->
+                      <!-- Button trigger modal -->
                       <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-1">
-                         
-                      </div> --}}
+                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalkegiatan">
+                          Tambah
+                          </button>
+                      </div>
                 
                 <!-- Modal -->
                       <div class="modal fade" id="modalkegiatan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog modal-lg">
                           <div class="modal-content">
-                            <form method="POST" action="{{ route('kegiatan.store') }}" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('peraturan.store') }}" enctype="multipart/form-data">
                               @csrf
                               <div class="modal-header">
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -51,8 +49,8 @@
                               <div class="row mb-3">
                                   <label for="inputJenis" class="col-sm-2 col-form-label">JENIS</label>
                                   <div class="col-sm-10">
-                                  <select class="form-select" aria-label="Default select example" name="jenis" id="jenis" >
-                                      <option selected value="Kegiatan">Kegiatan</option>
+                                  <select class="form-select" aria-label="Default select example" name="jenis" id="jenis">
+                                      <option selected value="Peraturan">Peraturan</option>
                                     </select>
                                   </div>
                               </div>
@@ -118,7 +116,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @forelse ($datakegiatan as $item)
+                      @forelse ($dataPeraturan as $item)
                         <tr>
                           <th scope="row col-1">{{ ++$i }}</th>
                           <td class="lh-sm col-2">{{ $item->tanggal }}</td>
@@ -133,26 +131,26 @@
                           @endif
 
                           <td>
-                            <button type="button" class=" btn badge bg-info text-dark me-1" data-bs-toggle="modal" data-bs-target="#modalEditKegiatan-{{ $item->id }}">Edit</a>
-                            <button type="button" class="btn badge bg-danger" data-bs-toggle="modal" data-bs-target="#modalHapusKegiatan-{{ $item->id }}">Hapus</a>
+                            <button type="button" class=" btn badge bg-info text-dark me-1" data-bs-toggle="modal" data-bs-target="#modalEditPeraturan-{{ $item->id }}">Edit</a>
+                            <button type="button" class="btn badge bg-danger" data-bs-toggle="modal" data-bs-target="#modalHapusPeraturan-{{ $item->id }}">Hapus</a>
                           </td>
                         </tr>
                       @empty
                         <tr>
                           <td colspan="7" class="border text-center p-5">
-                            Tidak ada Kegiatan
+                            Tidak ada Peraturan
                           </td>
                         </tr>
                       @endforelse
                     </tbody>
                   </table>
-                  {{ $datakegiatan->links() }}
+                  {{ $dataPeraturan->links() }}
               </div>
               </div>
               
-              @foreach ($datakegiatan as $item)
+              @foreach ($dataPeraturan as $item)
               <!-- Modal -->
-              <div class="modal fade" id="modalHapusKegiatan-{{ $item->id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalHapusDataLabel" aria-hidden="true">
+              <div class="modal fade" id="modalHapusPeraturan-{{ $item->id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalHapusDataLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -160,11 +158,11 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body fw-bold">
-                      Hapus data Kegiatan?
+                      Hapus data Peraturan?
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                      <form action="{{ route('kegiatan.destroy', $item->id) }}" method="POST">
+                      <form action="{{ route('peraturan.destroy', $item->id) }}" method="POST">
                         {!! method_field('delete') . csrf_field() !!}
                         <button type="submit" class="btn btn-danger">Hapus</button>
                       </form>
@@ -175,12 +173,12 @@
               <!-- Modal -->
               @endforeach
               
-              @foreach ($datakegiatan as $item)
+              @foreach ($dataPeraturan as $item)
               <!-- Modal -->
-              <div class="modal fade" id="modalEditKegiatan-{{ $item->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal fade" id="modalEditPeraturan-{{ $item->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
                       <div class="modal-content">
-                        <form method="POST" action="{{ route('kegiatan.update', $item->id) }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('peraturan.update', $item->id) }}" enctype="multipart/form-data">
                           @csrf
                           @method('put')
                           <div class="modal-header">
@@ -196,11 +194,11 @@
                             <div class="row mb-3">
                               <label for="inputJenis" class="col-sm-2 col-form-label">JENIS</label>
                               <div class="col-sm-10">
-                              <select class="form-select" aria-label="Default select example" name="jenis" id="jenis" >
+                              <select class="form-select" aria-label="Default select example" name="jenis" id="jenis">
                                   @if ("Pelaporan" == $item->jenis)
-                                    <option value="Kegiatan" selected>Kegiatan</option>
+                                    <option value="Peraturan" selected>Peraturan</option>
                                  @endif
-                                  <option value="Kegiatan">Kegiatan</option>
+                                  <option value="Peraturan">Peraturan</option>
                               </select>
                               </div>
                             </div>

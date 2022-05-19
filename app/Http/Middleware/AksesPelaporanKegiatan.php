@@ -17,7 +17,7 @@ class AksesPelaporanKegiatan
      */
     public function handle(Request $request, Closure $next)
     {
-        if ((Auth::user()->role === 'Kabag SDM') || (Auth::user()->role === 'Staf SDM'))
+        if ((Auth::user()->role === 'Kabag SDM') || (Auth::user()->role === 'Administrator'))
         {
             return $next($request);
 

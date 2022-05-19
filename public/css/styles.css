@@ -10,6 +10,26 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+ * {
+	margin: 0;
+	padding: 0;
+	font-family: 'Montserrat', sans-serif;
+}
+body {
+	background: #000;
+	display: grid;
+	place-items: center;
+	height: 100vh;
+}
+#clock {
+	font-size: 150px;
+	background: -webkit-linear-gradient(#2b32b2, #289df1);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-weight: 500;
+}
+ 
+
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;

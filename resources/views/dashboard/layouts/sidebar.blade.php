@@ -16,43 +16,46 @@
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     @can('kabag-sdm')
-                                        <div class="sb-sidenav-menu-heading pb-1 pt-1">Kabag sdm</div>
+                                        <div class="sb-sidenav-menu-heading pb-1 pt-1">Kabag SDM</div>
                                         <hr style="height: 2px">
                                         <a class="nav-link" href="{{ route("menu-karyawan") }}">
-                                            Data Karyawan
-                                        </a>
-                                        <a class="nav-link" href="{{ route('penggajian.index') }}">
-                                            Penggajian
-                                        </a>
-                                        <a class="nav-link" href="{{ route('presensi.index') }}">
-                                            Presensi
-                                        </a>
-                                        <a class="nav-link" href="{{ route('kegiatan.index') }}">
-                                            Pelaporan Dan Kegiatan
-                                        </a>
-                                    @elsecan('staf-sdm')
-                                        <div class="sb-sidenav-menu-heading pb-1 pt-1">Staf sdm</div>
-                                        <hr style="height: 2px">
-                                        <a class="nav-link" href="{{ route("menu-karyawan") }}">
-                                            Data Karyawan
-                                        </a>
-                                        <a class="nav-link" href="{{ route('presensi.index') }}">
-                                            Presensi
-                                        </a>
-                                        <a class="nav-link" href="{{ route('kegiatan.index') }}">
-                                            Pelaporan Dan Kegiatan
-                                        </a>
-                                    @elsecan('is-karyawan')
-                                        <div class="sb-sidenav-menu-heading pb-1 pt-1">Karyawan</div>
-                                        <hr style="height: 2px">
-                                        <a class="nav-link" href="{{ route('users.edit', Auth::user()->id) }}">
-                                            Data Karyawan
-                                        </a>
-                                    @elsecan('admin')
-                                        <div class="sb-sidenav-menu-heading pb-1 pt-1">Administrator</div>
-                                        <hr style="height: 2px">
-                                        <a class="nav-link pt-1" href="{{ route('kelolauser.index') }}">
                                             Kelola User
+                                         </a>
+                                        {{--    <a class="nav-link pt-1" href="{{ route('kelolauser.index') }}">
+                                            Kelola User
+                                        </a>  --}}
+                                        <a class="nav-link" href="{{ route('peraturan.index') }}">
+                                            Kelola Peraturan
+                                        </a>
+                                        <a class="nav-link" href="{{ route('kegiatan.index') }}">
+                                            Kelola Kegiatan
+                                        </a>
+                                        <a class="nav-link" href="{{ route('sop.index') }}">
+                                            Kelola SOP
+                                        </a>
+                                    @elsecan('Operator')
+                                        <div class="sb-sidenav-menu-heading pb-1 pt-1">Operator</div>
+                                        <hr style="height: 2px">
+                                        <a class="nav-link" href="{{ route('peraturan.index') }}">
+                                            Kelola Peraturan
+                                        </a>
+                                        <a class="nav-link" href="{{ route('kegiatan.index') }}">
+                                            Kelola Kegiatan
+                                        </a>
+                                        <a class="nav-link" href="{{ route('sop.index') }}">
+                                            Kelola SOP
+                                        </a>
+                                    @elsecan('Administrator')
+                                        <div class="sb-sidenav-menu-heading pb-1 pt-1">ADMIN ke 3</div>
+                                        <hr style="height: 2px">
+                                        <a class="nav-link" href="{{ route('peraturan.index') }}">
+                                            Kelola Peraturan
+                                        </a>
+                                        <a class="nav-link" href="{{ route('kegiatan.index') }}">
+                                            Kelola Kegiatan
+                                        </a>
+                                        <a class="nav-link" href="{{ route('sop.index') }}">
+                                            Kelola SOP
                                         </a>
                                     @endcan
                                 </nav>

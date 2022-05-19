@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kegiatan;
+use App\Models\Peraturan;
+use App\Models\SOP;
+
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -64,6 +68,24 @@ class LoginController extends Controller
 
         return view('login.index', [
             'kegiatan' => $kegiatan
+        ]);
+    }
+
+    public function filterperaturanlogin($tgl)
+    {
+        $peraturan = DB::table('peraturans')->where('tanggal', $tgl)->get();
+
+        return view('login.index', [
+            'kegiatan' => $peraturan
+        ]);
+    }
+
+    public function filterSOPlogin($tgl)
+    {
+        $sop = DB::table('sops')->where('tanggal', $tgl)->get();
+
+        return view('login.index', [
+            'kegiatan' => $sop
         ]);
     }
 }

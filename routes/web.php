@@ -2,12 +2,15 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\PeraturanController;
+use App\Http\Controllers\SOPController;
 use App\Http\Controllers\KelolaUserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\sideBarController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\AksesPelaporanPeraturan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,8 +29,12 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/postlogin', [LoginController::class, 'authLogin']);
 Route::post('/postlogout', [LoginController::class, 'authLogout']);
 Route::get('/login/filter/kegiatan/{tgl}', [LoginController::class, 'filterkegiatanlogin']);
+Route::get('/login/filter/peraturan/{tgl}', [LoginController::class, 'filterperaturanlogin']);
+Route::get('/login/filter/sop/{tgl}', [LoginController::class, 'filtersoplogin']);
 
 Route::get('kegiatan/download/file/{id}', [KegiatanController::class, 'downloadFile'])->name('download-file');
+Route::get('peraturan/download/file/{id}', [PeraturanController::class, 'downloadFile'])->name('download-file');
+Route::get('sop/download/file/{id}', [SOPController::class, 'downloadFile'])->name('download-file');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -48,6 +55,7 @@ Route::middleware(['auth','akses_kelola_data_karyawan'])->group(function () {
 
 Route::middleware(['auth', 'is_kabag_SDM'])->group(function () {
     Route::resource('penggajian', PenggajianController::class);
+    Route::resource('kelolauser', KelolaUserController::class);
 });
 
 Route::middleware(['auth', 'akses_presensi'])->group(function () {
@@ -60,6 +68,16 @@ Route::middleware(['auth', 'akses_presensi'])->group(function () {
 Route::middleware(['auth', 'akses_pelaporan_kegiatan'])->group(function () {
     Route::resource('kegiatan', KegiatanController::class);
     Route::get('/filter/kegiatan/{tgl}', [KegiatanController::class, 'filterKegiatan']);    
+});
+
+Route::middleware(['auth',  'akses_pelaporan_peraturan'])->group(function () {
+    Route::resource('peraturan', PeraturanController::class);
+    Route::get('/filter/peraturan/{tgl}', [PeraturanController::class, 'filterPeraturan']);
+});
+
+Route::middleware(['auth',  'akses_pelaporan_sop'])->group(function () {
+    Route::resource('sop', SOPController::class);
+    Route::get('/filter/sop/{tgl}', [SOPController::class, 'filterSOP']);
 });
 
 Route::middleware(['auth', 'is_admin'])->group(function () {

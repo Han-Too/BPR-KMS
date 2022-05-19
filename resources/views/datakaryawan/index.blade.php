@@ -192,11 +192,11 @@
                       </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="inputPassword3" class="col-sm-2 col-form-label">Agama</label>
-                    <div class="col-sm-10">
-                        <textarea class="form-control" name="agama" id="agama" rows="3" placeholder="Agama">{{ old('agama') }}</textarea>
-                    </div>
-                    </div>
+                      <label for="inputEmail3" class="col-sm-2 col-form-label">Agama</label>
+                          <div class="col-sm-10">
+                          <textarea class="form-control" name="agama" id="agama" rows="3" placeholder="Masukan Agama">{{ old('agama') }}</textarea>
+                          </div>
+                      </div>
                     <div class="row mb-3">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Status Karyawan</label>
                     <div class="col-sm-10">
@@ -216,6 +216,16 @@
                         <textarea class="form-control" name="alamat" id="alamat" rows="3" placeholder="Masukan Alamat">{{ old('alamat') }}</textarea>
                         </div>
                     </div>
+                    <div class="row mb-3">
+                      <label for="inputEmail3" class="col-sm-2 col-form-label">Role</label>
+                            <div class="col-sm-10">
+                                          <select class="form-select" name="role">
+                                              <option value="Staf SDM">Staf SDM</option>
+                                              <option value="Kabag SDM">Kabag SDM</option>
+                                              <option value="Operator">Operator</option>
+                                              <option selected value="Administrator">Administrator</option>
+                                          </select> 
+                                      </div></div>
           </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>

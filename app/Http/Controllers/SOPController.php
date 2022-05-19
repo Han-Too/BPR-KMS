@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kegiatan;
+use App\Models\SOP;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class KegiatanController extends Controller
+class SOPController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class KegiatanController extends Controller
      */
     public function index(Request $request)
     {
-        $kegiatan = Kegiatan::latest()->paginate(5);
-        return view('kegiatan.index', [
-            'datakegiatan' => $kegiatan,
+        $sop = SOP::latest()->paginate(5);
+        return view('sop.index', [
+            'datasop' => $sop,
         ])->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -42,7 +42,7 @@ class KegiatanController extends Controller
      */
     public function store(Request $request)
     {
-        $dataKegiatan = $request->validate([
+        $dataSOP = $request->validate([
             'tanggal' => 'required',
             'jenis' => 'required',
             'deskripsi' => 'required',
@@ -53,12 +53,12 @@ class KegiatanController extends Controller
         {
             $files = $request->file('file');
             $originalFileName = $files->getClientOriginalName();
-            $dataKegiatan['file'] = $files->storeAs('post-file', $originalFileName);
+            $dataSOP['file'] = $files->storeAs('post-file', $originalFileName);
         }
 
-        Kegiatan::create($dataKegiatan);
+        SOP::create($dataSOP);
 
-        return redirect()->route('kegiatan.index')->with('succes create', 'Data berhasil di tambahkan.');
+        return redirect()->route('SOP.index')->with('succes create', 'Data berhasil di tambahkan.');
     }
 
     /**
@@ -90,9 +90,9 @@ class KegiatanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kegiatan $kegiatan)
+    public function update(Request $request, SOP $SOP)
     {
-        $dataKegiatan = $request->validate([
+        $dataSOP = $request->validate([
             'tanggal' => 'required',
             'jenis' => 'required',
             'deskripsi' => 'required',
@@ -108,12 +108,12 @@ class KegiatanController extends Controller
 
             $files = $request->file('file');
             $originalFileName = $files->getClientOriginalName();
-            $dataKegiatan['file'] = $files->storeAs('post-file', $originalFileName);
+            $dataSOP['file'] = $files->storeAs('post-file', $originalFileName);
         }
 
-        $kegiatan->update($dataKegiatan);
+        $SOP->update($dataSOP);
 
-        return redirect()->route('kegiatan.index')->with('succes update', 'Data berhasil di diupdate.');
+        return redirect()->route('SOP.index')->with('succes update', 'Data berhasil di diupdate.');
     }
 
     /**
@@ -122,30 +122,30 @@ class KegiatanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kegiatan $kegiatan)
+    public function destroy(SOP $SOP)
     {
-        if ($kegiatan->file)
+        if ($SOP->file)
         {
-            Storage::delete($kegiatan->file);
+            Storage::delete($SOP->file);
         }
         
-        $kegiatan->delete();
+        $SOP->delete();
 
-        return redirect()->route('kegiatan.index')->with('succes hapus', 'Data berhasil di dihapus.');
+        return redirect()->route('SOP.index')->with('succes hapus', 'Data berhasil di dihapus.');
     }
 
-    public function filterKegiatan($tgl, Request $request)
+    public function filterSOP($tgl, Request $request)
     {
-        $kegiatan = DB::table('kegiatans')->where('tanggal', $tgl)->paginate(5);
+        $SOP = DB::table('sops')->where('tanggal', $tgl)->paginate(5);
 
-        return view('kegiatan.index', [
-            'datakegiatan' => $kegiatan,
+        return view('SOP.index', [
+            'dataSOP' => $SOP,
         ])->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
     public function downloadFile($id)
     {
-        $file = Kegiatan::findOrFail($id);
+        $file = SOP::findOrFail($id);
         $pathToFile = storage_path('app/public/' . $file->file);
         return response()->download($pathToFile);
     }

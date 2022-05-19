@@ -27,12 +27,14 @@
                 <div class="logo d-flex justify-content-center">
                     <img src="{{ asset('img/login/logo.png') }}" alt="Logo Bank Bpr" width="80px">
                     <div class="title mt-auto mb-auto ms-4">
-                        <h5>Aplikasi HRMS Bank BPR Sehat Sejahtera</h5>
+                        <h5 class="text-center">Aplikasi KMS Bank BPR Sehat Sejahtera</h5>
+                        
                     </div>
                 </div>
 
                 <!-- Logo Selesai -->
             </div>
+            <marquee direction="right"><h5>Selamat datang di website kami! Kami informasikan bahwa selalu patuhi protokol kesehatan</h5></marquee> <br>
         </div>   
     </div>
 
@@ -69,68 +71,117 @@
                     </div>
                 </form>
             </div>
+
             <div class="col-lg tableTable">
+              
+        <div class="table-responsive">
+            <p class="h3 text-center"> Tabel SOP</p>
+            <table class="table table-responsive table-bordered table-striped table align-middle ">
+              <thead>
+                <tr>
+                    <th scope="col" class="table-info text-center">Deskripsi</th>
+                    <th scope="col" class="table-info text-center">File</th>
+                </tr>
+              </thead>
+              <tbody>
+                @forelse($kegiatan as $item)
+                  <tr>
+                      <td class="lh-sm text-center">{{ $item->deskripsi }}</td>
+                    
+                      
+                      @if ($item->file)
+                      <td><center><a href="{{ route('download-file', $item->id) }}" class="badge bg-danger">PDF</a></center></td>
+                      @else
+                        <td><a href="#" class="badge bg-danger"></a></td>
+                      @endif
+                  </tr>
+        
+                @empty
+                  <tr>
+                      <td colspan="5" class="border text-center p-5">
+                        Tidak ada SOP
+                      </td>
+                  </tr>
+                @endforelse
+              </tbody>
+           </table>
+</div> 
+</div>
 
-                <div class="row w-80 mb-3 mt-2">
-                    <div class="col">
-                        <div class="input-group align-middle flex-nowrap">
-                            <p class="pt-2">Tanggal</p>
-                            <input type="date" name="tgl" id="tgl" class="form-control ms-3" placeholder=" Input Here" aria-label="Input Here" aria-describedby="addon-wrapping">
-                            <a href="" onclick="this.href='/login/filter/kegiatan/'+ document.getElementById('tgl').value" class="btn btn-primary btn-auto ms-2">Cari</a>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="input-group mb-3">
-                        </div>
-                    </div>
-                    <div class="d-grid gap-4 col-2 mx-auto mb-3">
-                    </div>
-                </div>
+<div class="col-lg tableTable">
+              
+  <div class="table-responsive">
+      <p class="h3 text-center"> Tabel Peraturan</p>
+      <table class="table table-responsive table-bordered table-striped table align-middle ">
+        <thead>
+          <tr>
+              <th scope="col" class="table-info text-center">Deskripsi</th>
+              <th scope="col" class="table-info text-center">File</th>
+          </tr>
+        </thead>
+        <tbody>
+          @forelse($kegiatan as $item)
+            <tr>
+                <td class="lh-sm text-center">{{ $item->deskripsi }}</td>
+              
+                
+                @if ($item->file)
+                <td><center><a href="{{ route('download-file', $item->id) }}" class="badge bg-danger">PDF</a></center></td>
+                @else
+                  <td><a href="#" class="badge bg-danger"></a></td>
+                @endif
+            </tr>
+  
+          @empty
+            <tr>
+                <td colspan="5" class="border text-center p-5">
+                  Tidak ada peraturan
+                </td>
+            </tr>
+          @endforelse
+        </tbody>
+     </table>
+</div> 
+</div>
 
-                <div class="table-responsive">
-                  <table class="table table table-bordered table align-middle ">
-                    <thead>
-                      <tr>
-                          <th scope="col" class="table-primary" >Tanggal</th>
-                          <th scope="col" class="table-primary">Jenis</th>
-                          <th scope="col" class="table-primary">Deskripsi</th>
-                          <th scope="col" class="table-primary">Status</th>
-                          <th scope="col" class="table-primary">File</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @forelse($kegiatan as $item)
-                        <tr>
-                            <th scope="row">{{ $item->tanggal }}</th>
-                            <td class="lh-sm">{{ $item->jenis }}</td>
-                            <td class="lh-sm">{{ $item->deskripsi }}</td>
-                            @if ($item->status == "Sedang Berlangsung")
-                              <td class="badge bg-success mt-2 ms-2 mb-2 me-1">{{ $item->status }}</td>
-                            @elseif ($item->status == "Menunggu")
-                              <td class="badge bg-warning mt-2 ms-2 mb-2 me-1">{{ $item->status }}</td>
-                            @else
-                              <td class="badge bg-danger mt-2 ms-2 mb-2 me-1">{{ $item->status }}</td>
-                            @endif
-                            
-                            @if ($item->file)
-                            <td><a href="{{ route('download-file', $item->id) }}" class="badge bg-danger">PDF</a></td>
-                            @else
-                              <td><a href="#" class="badge bg-danger"></a></td>
-                            @endif
-                        </tr>
+<div class="col-lg tableTable">
+              
+  <div class="table-responsive">
+      <p class="h3 text-center"> Tabel Kegiatan</p>
+      <table class="table table-responsive table-bordered table-striped table align-middle ">
+        <thead>
+          <tr>
+              <th scope="col" class="table-info text-center">Deskripsi</th>
+              <th scope="col" class="table-info text-center">File</th>
+          </tr>
+        </thead>
+        <tbody>
+          @forelse($kegiatan as $item)
+            <tr>
+                <td class="lh-sm text-center">{{ $item->deskripsi }}</td>
+              
+                
+                @if ($item->file)
+                <td><center><a href="{{ route('download-file', $item->id) }}" class="badge bg-danger">PDF</a></center></td>
+                @else
+                  <td><a href="#" class="badge bg-danger"></a></td>
+                @endif
+            </tr>
+  
+          @empty
+            <tr>
+                <td colspan="5" class="border text-center p-5">
+                  Tidak ada kegiatan
+                </td>
+            </tr>
+          @endforelse
+        </tbody>
+     </table>
+</div> 
 
-                      @empty
-                        <tr>
-                            <td colspan="5" class="border text-center p-5">
-                              Tidak ada kegiatan
-                            </td>
-                        </tr>
-                      @endforelse
-                    </tbody>
-                 </table>
-                 {{-- {{ $kegiatan->links() }} --}}
-              </div>
-        </div>
+</div>
+        </div></div>
+
     </div>
   </div>
 

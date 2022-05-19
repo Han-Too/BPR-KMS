@@ -68,5 +68,7 @@ class Kernel extends HttpKernel
         'akses_kelola_data_karyawan' => \App\Http\Middleware\AksesKelolaDataKaryawan::class,
         'akses_presensi' => \App\Http\Middleware\AksesPresensi::class,
         'akses_pelaporan_kegiatan' => \App\Http\Middleware\AksesPelaporanKegiatan::class,
+        'akses_pelaporan_peraturan' => \App\Http\Middleware\AksesPelaporanPeraturan::class,
+        'akses_pelaporan_sop' => \App\Http\Middleware\AksesPelaporanPeraturan::class,
     ];
 }

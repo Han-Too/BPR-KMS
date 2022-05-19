@@ -63,6 +63,7 @@ class UserController extends Controller
             'agama' => 'required',
             'status_karyawan' => 'required',
             'alamat' => 'required',
+            'role' => 'required',
         ]);
 
         $cekUser = DB::table('users')
@@ -256,6 +257,7 @@ class UserController extends Controller
             'agama' => 'required',
             'status_karyawan' => 'required',
             'alamat' => 'required',
+            'role' => 'required',
         ]);
         
         if ($request->file('profile_photo_path'))
