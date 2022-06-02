@@ -53,17 +53,20 @@ Route::middleware(['auth','akses_kelola_data_karyawan'])->group(function () {
     Route::delete('/delete/sertifikasi/{id}', [UserController::class, 'destroySertifikasi'])->name('delete.sertifikasi');
 });
 
+
 Route::middleware(['auth', 'is_kabag_SDM'])->group(function () {
     Route::resource('penggajian', PenggajianController::class);
     Route::resource('kelolauser', KelolaUserController::class);
 });
 
-Route::middleware(['auth', 'akses_presensi'])->group(function () {
-    Route::resource('presensi', PresensiController::class);
-    Route::get('/data-cetak-presensi/{tglawal}/{tglakhir}', [PresensiController::class, 'cetakPresensiPertanggal']);
-    Route::get('/filter-presensi-harian/{tgl1}/{tgl2}', [PresensiController::class, 'filterPresensiHarian']);
-    Route::get('/filter-presensi-bulanan/{filter1}/{filter2}', [PresensiController::class, 'filterPresensiBulanan']);
-});
+
+
+// Route::middleware(['auth', 'akses_presensi'])->group(function () {
+//     Route::resource('presensi', PresensiController::class);
+//     Route::get('/data-cetak-presensi/{tglawal}/{tglakhir}', [PresensiController::class, 'cetakPresensiPertanggal']);
+//     Route::get('/filter-presensi-harian/{tgl1}/{tgl2}', [PresensiController::class, 'filterPresensiHarian']);
+//     Route::get('/filter-presensi-bulanan/{filter1}/{filter2}', [PresensiController::class, 'filterPresensiBulanan']);
+// });
 
 Route::middleware(['auth', 'akses_pelaporan_kegiatan'])->group(function () {
     Route::resource('kegiatan', KegiatanController::class);
@@ -76,10 +79,16 @@ Route::middleware(['auth',  'akses_pelaporan_peraturan'])->group(function () {
 });
 
 Route::middleware(['auth',  'akses_pelaporan_sop'])->group(function () {
-    Route::resource('sop', SOPController::class);
-    Route::get('/filter/sop/{tgl}', [SOPController::class, 'filterSOP']);
+    Route::resource('sop', SopController::class);
+    Route::get('/filter/sop/{tgl}', [SopController::class, 'filterSOP']);
 });
 
 Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::resource('kelolauser', KelolaUserController::class);
 });
+
+Route::middleware(['auth',  'akses_pelaporan_departemen'])->group(function () {
+    Route::resource('departemen', DepartemenController::class);
+});
+
+?>

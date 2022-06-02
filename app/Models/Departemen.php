@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sop extends Model
+class Departemen extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'tanggal',
-        'jenis',
-        'file',
+        'kode_departemen',
+        'departemen',
         'deskripsi',
     ];
 

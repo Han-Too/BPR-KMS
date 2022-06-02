@@ -126,8 +126,8 @@
               <div class="col-sm-10">
                             <select class="form-select" name="role">
                                 <option selected value="">Pilih Role Baru</option>
-                                <option value="Staf SDM">Staf SDM</option>
-                                <option value="Kabag SDM">Kabag SDM</option>
+                                {{-- <option value="Staf SDM">Staf SDM</option>
+                                <option value="Kabag SDM">Kabag SDM</option> --}}
                                 <option value="Operator">Operator</option>
                                 <option value="Administrator">Administrator</option>
                             </select> 

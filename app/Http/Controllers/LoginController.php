@@ -18,9 +18,15 @@ class LoginController extends Controller
     {
 
         $kegiatan = Kegiatan::latest()->paginate(5);
+        $sop = Sop::latest()->paginate(5);
+        $peraturan = Peraturan::latest()->paginate(5);
+        
 
         return view('login.index', [
-            'kegiatan' => $kegiatan
+            'kegiatan' => $kegiatan,
+            'sop' => $sop,
+            'peraturan' => $peraturan
+            
         ]);
     }
 
@@ -76,7 +82,7 @@ class LoginController extends Controller
         $peraturan = DB::table('peraturans')->where('tanggal', $tgl)->get();
 
         return view('login.index', [
-            'kegiatan' => $peraturan
+            'peraturan' => $peraturan
         ]);
     }
 
@@ -85,7 +91,7 @@ class LoginController extends Controller
         $sop = DB::table('sops')->where('tanggal', $tgl)->get();
 
         return view('login.index', [
-            'kegiatan' => $sop
+            'sop' => $sop
         ]);
     }
 }

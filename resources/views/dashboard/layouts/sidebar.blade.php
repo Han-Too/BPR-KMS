@@ -15,15 +15,23 @@
                             </a>
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    @can('kabag-sdm')
-                                        <div class="sb-sidenav-menu-heading pb-1 pt-1">Kabag SDM</div>
+                                    @if(Auth::user()->role === 'Administrator')
+                                        <div class="sb-sidenav-menu-heading pb-1 pt-1">Kelola User</div>
                                         <hr style="height: 2px">
                                         <a class="nav-link" href="{{ route("menu-karyawan") }}">
                                             Kelola User
                                          </a>
+                                        <a class="nav-link" href="{{ route('departemen.index') }}">
+                                            Kelola Departement
+                                        </a>
+                                        <a class="nav-link" href="{{ route('sop.index') }}">
+                                            Kelola Jabatan
+                                        </a>
                                         {{--    <a class="nav-link pt-1" href="{{ route('kelolauser.index') }}">
                                             Kelola User
                                         </a>  --}}
+                                        <div class="sb-sidenav-menu-heading pb-1 pt-1">Kelola File</div>
+                                        <hr style="height: 2px">
                                         <a class="nav-link" href="{{ route('peraturan.index') }}">
                                             Kelola Peraturan
                                         </a>
@@ -33,7 +41,7 @@
                                         <a class="nav-link" href="{{ route('sop.index') }}">
                                             Kelola SOP
                                         </a>
-                                    @elsecan('Operator')
+                                    @elseif(Auth::user()->role === 'Operator')
                                         <div class="sb-sidenav-menu-heading pb-1 pt-1">Operator</div>
                                         <hr style="height: 2px">
                                         <a class="nav-link" href="{{ route('peraturan.index') }}">
@@ -45,7 +53,7 @@
                                         <a class="nav-link" href="{{ route('sop.index') }}">
                                             Kelola SOP
                                         </a>
-                                    @elsecan('Administrator')
+                                    @elseif(Auth::user()->role === 'Administrator22')
                                         <div class="sb-sidenav-menu-heading pb-1 pt-1">ADMIN ke 3</div>
                                         <hr style="height: 2px">
                                         <a class="nav-link" href="{{ route('peraturan.index') }}">
@@ -57,7 +65,7 @@
                                         <a class="nav-link" href="{{ route('sop.index') }}">
                                             Kelola SOP
                                         </a>
-                                    @endcan
+                                    @endif
                                 </nav>
                             </div>
                         </div>

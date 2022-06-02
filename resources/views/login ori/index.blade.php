@@ -84,7 +84,7 @@
                 </tr>
               </thead>
               <tbody>
-                @forelse($sop as $item)
+                @forelse($kegiatan as $item)
                   <tr>
                       <td class="lh-sm text-center">{{ $item->deskripsi }}</td>
                     
@@ -120,7 +120,7 @@
           </tr>
         </thead>
         <tbody>
-          @forelse($peraturan as $item)
+          @forelse($kegiatan as $item)
             <tr>
                 <td class="lh-sm text-center">{{ $item->deskripsi }}</td>
               
