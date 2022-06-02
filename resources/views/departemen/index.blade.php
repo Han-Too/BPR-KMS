@@ -198,7 +198,7 @@
                           </div>
                           <div class="modal-body">
                             <div class="row mb-3">
-                              <label for="inputtgl" class="col-sm-2 col-form-label">KODE</label>
+                              <label for="inputtgl" class="col-sm-2 col-form-label">KODE DEPARTEMEN</label>
                               <div class="col-sm-10">
                                 <input value="{{ $item->kode_departemen }}" type="date" id="kode_departemen" name="kode_departemen">
                             </div>
