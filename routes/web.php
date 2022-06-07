@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\PeraturanController;
 use App\Http\Controllers\SOPController;
+use App\Http\Controllers\DepartemenController;
 use App\Http\Controllers\KelolaUserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PenggajianController;
@@ -89,6 +90,7 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
 
 Route::middleware(['auth',  'akses_pelaporan_departemen'])->group(function () {
     Route::resource('departemen', DepartemenController::class);
+    Route::get('/filter/departemen/{tgl}', [DepartemenController::class, 'filterDepartemen']);
 });
 
 ?>

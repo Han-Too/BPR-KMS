@@ -131,7 +131,7 @@ class DepartemenController extends Controller
         return redirect()->route('departemen.index')->with('succes hapus', 'Data berhasil di dihapus.');
     }
 
-    public function filterPeraturan($tgl, Request $request)
+    public function filterDepartemen($tgl, Request $request)
     {
         $Departemen = DB::table('departemens')->where('tanggal', $tgl)->paginate(5);
 

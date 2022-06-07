@@ -33,7 +33,7 @@
                       </div> --}}
                 
                 <!-- Modal -->
-                      <div class="modal fade" id="modaldepartemen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal fade" id="modalDepartemen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog modal-lg">
                           <div class="modal-content">
                             <form method="POST" action="{{ route('departemen.store') }}" enctype="multipart/form-data">
@@ -48,15 +48,15 @@
                                     <input type="date" id="tanggal" name="tanggal">
                                 </div>
                               </div> --}}
-                              <div class="row mb-3">
-                                <label for="inputJenis" class="col-sm-2 col-form-label">KODE</label>
+                              <div class="row mb-3 mt-3">
+                                <label for="inputJenis" class="col-sm-2 col-form-label">KODE DEPARTEMEN</label>
                                 <div class="col-sm-10">
                                   <input type="text" id="departemen" name="kode_departemen">
                                 </div>
                               </div>
 
                               <div class="row mb-3">
-                                  <label for="inputJenis" class="col-sm-2 col-form-label">NAMA</label>
+                                  <label for="inputJenis" class="col-sm-2 col-form-label">NAMA DEPARTEMEN</label>
                                   <div class="col-sm-10">
                                     <input type="text" id="departemen" name="departemen">
                                
@@ -143,26 +143,26 @@
                           @endif --}}
 
                           <td>
-                            <button type="button" class=" btn badge bg-info text-dark me-5 " data-bs-toggle="modal" data-bs-target="#modalEditSop-{{ $item->id }}">Edit</a>
-                            <button type="button" class="btn badge bg-danger" data-bs-toggle="modal" data-bs-target="#modalHapusSop-{{ $item->id }}">Hapus</a>
+                            <button type="button" class=" btn badge bg-info text-dark me-5 " data-bs-toggle="modal" data-bs-target="#modalEditDepartemen-{{ $item->id }}">Edit</a>
+                            <button type="button" class="btn badge bg-danger" data-bs-toggle="modal" data-bs-target="#modalHapusDepartemen-{{ $item->id }}">Hapus</a>
                           </td>
                         </tr>
                       @empty
                         <tr>
                           <td colspan="7" class="border text-center p-5">
-                            Tidak ada SOP
+                            Tidak ada Data Departemen
                           </td>
                         </tr>
                       @endforelse
                     </tbody>
                   </table>
-                  {{ $dataSop->links() }}
+                  {{ $dataDepartemen->links() }}
               </div>
               </div>
               
               @foreach ($dataDepartemen as $item)
               <!-- Modal -->
-              <div class="modal fade" id="modalHapusSop-{{ $item->id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalHapusDataLabel" aria-hidden="true">
+              <div class="modal fade" id="modalHapusDepartemen-{{ $item->id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalHapusDataLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -187,7 +187,7 @@
               
               @foreach ($dataDepartemen as $item)
               <!-- Modal -->
-              <div class="modal fade" id="modalEditSop-{{ $item->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal fade" id="modalEditDepartemen-{{ $item->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
                       <div class="modal-content">
                         <form method="POST" action="{{ route('departemen.update', $item->id) }}" enctype="multipart/form-data">
@@ -200,19 +200,19 @@
                             <div class="row mb-3">
                               <label for="inputtgl" class="col-sm-2 col-form-label">KODE DEPARTEMEN</label>
                               <div class="col-sm-10">
-                                <input value="{{ $item->kode_departemen }}" type="date" id="kode_departemen" name="kode_departemen">
+                                <input value="{{ $item->kode_departemen }}" type="text" id="kode_departemen" name="kode_departemen">
                             </div>
                             </div>
                             <div class="row mb-3">
                               <label for="inputJenis" class="col-sm-2 col-form-label">NAMA</label>
                               <div class="col-sm-10">
-                                <input value="{{ $item->departemen }}" type="date" id="departemen" name="departemen">
+                                <input value="{{ $item->departemen }}" type="text" id="departemen" name="departemen">
                            
                               {{-- <select class="form-select" aria-label="Default select example" name="jenis" id="jenis">
                                   @if ("Pelaporan" == $item->jenis)
-                                    <option value="Sop" selected>SOP</option>
+                                    <option value="Departemen" selected>Departemen</option>
                                  @endif
-                                  <option value="Sop">SOP</option>
+                                  <option value="Departemen">Departemen</option>
                               </select> --}}
                               </div>
                             </div>

@@ -20,7 +20,7 @@
                   <div class="col inputBox me-3">
                     <input type="date" id="tgl" name="tgl">
                     <a href="" onclick="this.href='/filter/peraturan/'+ document.getElementById('tgl').value" class="btn btn-primary ms-3">Cari</a>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalkegiatan">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalsop">
                       Tambah
                       </button>
                   </div>
@@ -32,7 +32,7 @@
                       </div> --}}
                 
                 <!-- Modal -->
-                      <div class="modal fade" id="modalkegiatan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal fade" id="modalsop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog modal-lg">
                           <div class="modal-content">
                             <form method="POST" action="{{ route('sop.store') }}" enctype="multipart/form-data">
@@ -51,7 +51,7 @@
                                   <label for="inputJenis" class="col-sm-2 col-form-label">JENIS</label>
                                   <div class="col-sm-10">
                                   <select class="form-select" aria-label="Default select example" name="jenis" id="jenis">
-                                      <option selected value="Peraturan">Peraturan</option>
+                                      <option selected value="SOP">SOP</option>
                                     </select>
                                   </div>
                               </div>
