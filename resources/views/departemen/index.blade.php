@@ -16,21 +16,13 @@
                 </div>
               
                 <fieldset class="row mb-1 mt-3">
-                 {{-- <legend class="col-form-label col-sm-2 pt-0 fw-bold">TANGGAL</legend>
-                 
-                     <input type="date" id="tgl" name="tgl">
-                    <a href="" onclick="this.href='/filter/peraturan/'+ document.getElementById('tgl').value" class="btn btn-primary ms-3">Cari</a> --}}
-                    <div class="col inputBox me-3">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaldepartemen">
+                     <div class="col inputBox me-3">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDepartemen">
                       Tambah
                       </button>
                   </div>
                 </fieldset>
               
-                      <!-- Button trigger modal -->
-                      {{-- <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-1">
-                          EX. BUTTON TAMBAH
-                      </div> --}}
                 
                 <!-- Modal -->
                       <div class="modal fade" id="modalDepartemen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -41,43 +33,28 @@
                               <div class="modal-header">
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
-                              {{-- <div class="modal-body">
-                                <div class="row mb-3">
-                                  <label for="inputtgl" class="col-sm-2 col-form-label">TANGGAL</label>
-                                  <div class="col-sm-10">
-                                    <input type="date" id="tanggal" name="tanggal">
-                                </div>
-                              </div> --}}
+                             
                               <div class="row mb-3 mt-3">
-                                <label for="inputJenis" class="col-sm-2 col-form-label">KODE DEPARTEMEN</label>
+                                <label for="inputJenis" class="col-sm-2 col-form-label">KODE</label>
                                 <div class="col-sm-10">
-                                  <input type="text" id="departemen" name="kode_departemen">
+                                  <input type="text" id="departemen" name="kode_departemen"  class="form-control" rows="2">
                                 </div>
                               </div>
 
                               <div class="row mb-3">
-                                  <label for="inputJenis" class="col-sm-2 col-form-label">NAMA DEPARTEMEN</label>
+                                  <label for="inputJenis" class="col-sm-2 col-form-label">NAMA</label>
                                   <div class="col-sm-10">
-                                    <input type="text" id="departemen" name="departemen">
+                                    <input type="text" id="departemen" name="departemen"  class="form-control" rows="2">
                                
-                                  {{-- <select class="form-select" aria-label="Default select example" name="jenis" id="jenis">
-                                      <option selected value="Peraturan">Peraturan</option>
-                                    </select> --}}
                                   </div>
                               </div>
                               <div class="row mb-3">
                                   <label for="inputDeskripsi" class="col-sm-2 col-form-label">DESKRIPSI</label>
                                   <div class="col-sm-10">
-                                    <textarea name="deskripsi" class="form-control" id="deskripsi" rows="3" placeholder="Input Here"></textarea>
+                                    <textarea name="deskripsi" class="form-control" id="deskripsi" rows="2" placeholder="Input Here"></textarea>
                                   </div>
                               </div>
-                              {{-- <div class="row mb-3">
-                                  <label for="inputDokumen" class="col-sm-2 col-form-label">DOKUMEN</label>
-                                  <div class="col-sm-10">
-                                      <input type="file" class="form-control" name="file" id="file">
-                                  </div>
-                              </div>
-                              </div> --}}
+                              
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Tambah</button>
@@ -87,6 +64,7 @@
                         </div>
                       </div>
               
+                    </div>
               
               
                 <div class="table-responsive">
@@ -123,7 +101,6 @@
                           <th scope="col" class="table-primary">Kode</th>
                           <th scope="col" class="table-primary">Nama</th>
                           <th scope="col" class="table-primary">Deskripsi</th>
-                          {{-- <th scope="col" class="table-primary">File</th> --}}
                           <th scope="col" class="table-primary">Aksi</th>
                       </tr>
                     </thead>
@@ -134,15 +111,7 @@
                           <td class="lh-sm col-2">{{ $item->kode_departemen }}</td>
                           <td class="lh-sm col-2">{{ $item->departemen }}</td>
                           <td class="lh-sm col-3">{{ $item->deskripsi }}</td>
-                          
-{{-- 
-                          @if ($item->file)
-                            <td><a href="{{ route('download-file', $item->id) }}" class="badge bg-danger">PDF</a></td>
-                          @else
-                            <td><a href="#" class="badge bg-danger"></a></td>
-                          @endif --}}
-
-                          <td>
+                            <td>
                             <button type="button" class=" btn badge bg-info text-dark me-5 " data-bs-toggle="modal" data-bs-target="#modalEditDepartemen-{{ $item->id }}">Edit</a>
                             <button type="button" class="btn badge bg-danger" data-bs-toggle="modal" data-bs-target="#modalHapusDepartemen-{{ $item->id }}">Hapus</a>
                           </td>
@@ -159,7 +128,7 @@
                   {{ $dataDepartemen->links() }}
               </div>
               </div>
-              
+              {{-- BATASAN WAKTU --}}
               @foreach ($dataDepartemen as $item)
               <!-- Modal -->
               <div class="modal fade" id="modalHapusDepartemen-{{ $item->id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalHapusDataLabel" aria-hidden="true">
@@ -198,22 +167,17 @@
                           </div>
                           <div class="modal-body">
                             <div class="row mb-3">
-                              <label for="inputtgl" class="col-sm-2 col-form-label">KODE DEPARTEMEN</label>
+                              <label for="inputDeskripsi" class="col-sm-2 col-form-label">KODE</label>
                               <div class="col-sm-10">
-                                <input value="{{ $item->kode_departemen }}" type="text" id="kode_departemen" name="kode_departemen">
-                            </div>
+                                <input type="text" class="form-control" id="inputKode" name="kode_departemen" value="{{ $item->kode_departemen }}">
+                                {{-- <textarea name="deskripsi" class="form-control" id="deskripsi" rows="3" placeholder="Input Here">{{ $item->deskripsi }}</textarea> --}}
+                              </div>
                             </div>
                             <div class="row mb-3">
-                              <label for="inputJenis" class="col-sm-2 col-form-label">NAMA</label>
+                              <label for="inputDeskripsi" class="col-sm-2 col-form-label">KODE</label>
                               <div class="col-sm-10">
-                                <input value="{{ $item->departemen }}" type="text" id="departemen" name="departemen">
-                           
-                              {{-- <select class="form-select" aria-label="Default select example" name="jenis" id="jenis">
-                                  @if ("Pelaporan" == $item->jenis)
-                                    <option value="Departemen" selected>Departemen</option>
-                                 @endif
-                                  <option value="Departemen">Departemen</option>
-                              </select> --}}
+                                <input type="text" class="form-control" id="inputKode" name="departemen" value="{{ $item->departemen }}">
+                                {{-- <textarea name="deskripsi" class="form-control" id="deskripsi" rows="3" placeholder="Input Here">{{ $item->deskripsi }}</textarea> --}}
                               </div>
                             </div>
                             <div class="row mb-3">
@@ -222,14 +186,8 @@
                                 <textarea name="deskripsi" class="form-control" id="deskripsi" rows="3" placeholder="Input Here">{{ $item->deskripsi }}</textarea>
                               </div>
                             </div>
-                            
-                            {{-- <div class="row mb-3">
-                              <label for="inputDokumen" class="col-sm-2 col-form-label">DOKUMEN</label>
-                              <div class="col-sm-10">
-                                  <input type="hidden" name="oldFile" value="{{ $item->file }}">
-                                  <input type="file" class="form-control" name="file" id="file">
-                              </div>
-                            </div> --}}
+                           
+                          </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Tambah</button>
@@ -238,8 +196,11 @@
                       </div>
                   </div>
                 </div>
+                
                 @endforeach
           </div>
 </div>
+
+           
 
 @endsection

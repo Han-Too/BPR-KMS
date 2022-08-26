@@ -24,12 +24,9 @@
                                         <a class="nav-link" href="{{ route('departemen.index') }}">
                                             Kelola Departement
                                         </a>
-                                        <a class="nav-link" href="{{ route('sop.index') }}">
+                                        <a class="nav-link" href="{{ route('jabatan.index') }}">
                                             Kelola Jabatan
                                         </a>
-                                        {{--    <a class="nav-link pt-1" href="{{ route('kelolauser.index') }}">
-                                            Kelola User
-                                        </a>  --}}
                                         <div class="sb-sidenav-menu-heading pb-1 pt-1">Kelola File</div>
                                         <hr style="height: 2px">
                                         <a class="nav-link" href="{{ route('peraturan.index') }}">
@@ -40,6 +37,9 @@
                                         </a>
                                         <a class="nav-link" href="{{ route('sop.index') }}">
                                             Kelola SOP
+                                        </a>
+                                        <a class="nav-link" href="{{ route('pengetahuan.index') }}">
+                                            Kelola Pengetahuan
                                         </a>
                                     @elseif(Auth::user()->role === 'Operator')
                                         <div class="sb-sidenav-menu-heading pb-1 pt-1">Operator</div>
@@ -53,18 +53,10 @@
                                         <a class="nav-link" href="{{ route('sop.index') }}">
                                             Kelola SOP
                                         </a>
-                                    @elseif(Auth::user()->role === 'Administrator22')
-                                        <div class="sb-sidenav-menu-heading pb-1 pt-1">ADMIN ke 3</div>
-                                        <hr style="height: 2px">
-                                        <a class="nav-link" href="{{ route('peraturan.index') }}">
-                                            Kelola Peraturan
+                                        <a class="nav-link" href="{{ route('pengetahuan.index') }}">
+                                            Kelola Pengetahuan
                                         </a>
-                                        <a class="nav-link" href="{{ route('kegiatan.index') }}">
-                                            Kelola Kegiatan
-                                        </a>
-                                        <a class="nav-link" href="{{ route('sop.index') }}">
-                                            Kelola SOP
-                                        </a>
+                                   
                                     @endif
                                 </nav>
                             </div>

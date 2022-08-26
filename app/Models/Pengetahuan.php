@@ -5,17 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Presensi extends Model
+class Pengetahuan extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'id_karyawan',
-        'waktu',
+        'tanggal',
+        'kode_pengetahuan',
+        'file',
+        'deskripsi',
     ];
 
-    public function user()
-    {
-        return $this->hasOne(User::class, 'id_karyawan', 'id_karyawan');
-    }
 }

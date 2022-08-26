@@ -90,114 +90,6 @@ class UserController extends Controller
 
     }
 
-    public function storeIdentitas(Request $request)
-    {
-        $dataIdentitas = $request->validate([
-            'id_karyawan' => 'required',
-            'identitas' => 'required',
-            'identity_picture' => 'image|file|max:1024',
-            'no_identitas' => 'required',
-            'tanggal_aktif' => 'required',
-            'berlaku_sampai' => 'required',
-        ]);
-
-        $cekIdentitas = DB::table('identitas')
-                                ->where('id_karyawan', $request->id_karyawan)
-                                ->where('identitas', $request->identitas)
-                                ->first();
-
-        if($cekIdentitas == null)
-        {
-            if ($request->identity_picture != null)
-            {
-                $files = $request->file('identity_picture');
-                $originalFileName = $files->getClientOriginalName();
-                $dataIdentitas['identity_picture'] = $files->storeAs('post-image-identitas', $originalFileName);
-            }
-            Identitas::create($dataIdentitas);
-            return back()->with('message', 'Data berhasil di tambahkan.');
-        } else {
-            return back()->with('inputError', 'Data identitas sudah ada !');
-        }
-        
-    }
-
-    public function storePendidikan(Request $request)
-    {
-        $datapendidikan = $request->validate([
-            'id_karyawan' => 'required',
-            'jenjang' => 'required',
-            'institusi_pendidikan' => 'required',
-            'kota_pendidikan' => 'required',
-            'tgl_masuk' => 'required',
-            'status' => 'required',
-            'nilai' => 'required',
-        ]);
-
-        $cekPendidikan = DB::table('pendidikans')
-                                ->where('id_karyawan', $request->id_karyawan)
-                                ->where('jenjang', $request->jenjang)
-                                ->first();
-
-        if($cekPendidikan == null)
-        {
-            Pendidikan::create($datapendidikan);
-            return back()->with('message', 'Data berhasil di tambahkan.');
-        } else {
-            return back()->with('inputError', 'Data pendidikan sudah ada !');
-        }   
-    }
-
-    public function storePekerjaan(Request $request)
-    {
-        $datapekerjaan = $request->validate([
-            'id_karyawan' => 'required',
-            'institusi_pekerjaan' => 'required',
-            'kota_pekerjaan' => 'required',
-            'jabatan' => 'required',
-            'tgl_masuk' => 'required',
-            'tgl_keluar' => 'required',
-            'keluar' => 'required',
-
-        ]);
-
-        $cekPekerjaan = DB::table('pekerjaans')
-                                ->where('id_karyawan', $request->id_karyawan)
-                                ->where('institusi_pekerjaan', $request->institusi_pekerjaan)
-                                ->first();
-
-        if($cekPekerjaan == null)
-        {
-            Pekerjaan::create($datapekerjaan);
-            return back()->with('message', 'Data berhasil di tambahkan.');
-        } else {
-            return back()->with('inputError', 'Data pekerjaan sudah ada !');
-        }
-    }
-
-    public function storeSertifikasi(Request $request)
-    {
-        $datasertifikasi = $request->validate([
-            'id_karyawan' => 'required',
-            'institusi_sertifikasi' => 'required',
-            'sertifikasi' => 'required',
-            'tingkat' => 'required',
-
-        ]);
-
-        $cekSertifikasi = DB::table('sertifikasis')
-                                ->where('id_karyawan', $request->id_karyawan)
-                                ->where('institusi_sertifikasi', $request->institusi_sertifikasi)
-                                ->first();
-
-        if($cekSertifikasi == null)
-        {
-            Sertifikasi::create($datasertifikasi);
-            return back()->with('message', 'Data berhasil di tambahkan.');
-        } else {
-            return back()->with('inputError', 'Data sertifikasi sudah ada !');
-        }
-    }
 
     /**
      * Display the specified resource.
@@ -224,17 +116,17 @@ class UserController extends Controller
             return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
         }
 
-        $identitas = DB::table('identitas')->where('id_karyawan', $user->id_karyawan)->get();
-        $pendidikan = DB::table('pendidikans')->where('id_karyawan', $user->id_karyawan)->get();
-        $pekerjaan = DB::table('pekerjaans')->where('id_karyawan', $user->id_karyawan)->get();
-        $sertifikasi = DB::table('sertifikasis')->where('id_karyawan', $user->id_karyawan)->get();
+        // $identitas = DB::table('identitas')->where('id_karyawan', $user->id_karyawan)->get();
+        // $pendidikan = DB::table('pendidikans')->where('id_karyawan', $user->id_karyawan)->get();
+        // $pekerjaan = DB::table('pekerjaans')->where('id_karyawan', $user->id_karyawan)->get();
+        // $sertifikasi = DB::table('sertifikasis')->where('id_karyawan', $user->id_karyawan)->get();
 
         return view('datakaryawan.edit', [
             'item' => $user,
-            'dataidentitas' => $identitas,
-            'datapendidikan' => $pendidikan,
-            'datapekerjaan' => $pekerjaan,
-            'datasertifikasi' => $sertifikasi,
+            // 'dataidentitas' => $identitas,
+            // 'datapendidikan' => $pendidikan,
+            // 'datapekerjaan' => $pekerjaan,
+            // 'datasertifikasi' => $sertifikasi,
         ]);
     }
 

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AksesPresensi
+class AksesPelaporanJabatan
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class AksesPresensi
      */
     public function handle(Request $request, Closure $next)
     {
-        if ((Auth::user()->role === 'Kabag SDM') || (Auth::user()->role === 'Staf SDM'))
+        if ( (Auth::user()->role === 'Administrator'))
         {
             return $next($request);
 

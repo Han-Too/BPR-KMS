@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kegiatan;
+use App\Models\Pengetahuan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class KegiatanController extends Controller
+class PengetahuanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class KegiatanController extends Controller
      */
     public function index(Request $request)
     {
-        $kegiatan = Kegiatan::latest()->paginate(5);
-        return view('kegiatan.index', [
-            'datakegiatan' => $kegiatan,
+        $pengetahuan = Pengetahuan::latest()->paginate(5);
+        return view('pengetahuan.index', [
+            'dataPengetahuan' => $pengetahuan,
         ])->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -42,24 +42,23 @@ class KegiatanController extends Controller
      */
     public function store(Request $request)
     {
-        $dataKegiatan = $request->validate([
+        $dataPengetahuan = $request->validate([
             'tanggal' => 'required',
-            'kode_kegiatan' => 'required',
+            'kode_pengetahuan' => 'required',
             'deskripsi' => 'required',
-            'file' => 'mimes:mp4|max:104857',
-            'kode_jabatan' => 'required',
+            'file' => 'mimes:mp4,pdf,docx|max:104857',
         ]);
 
         if ($request->file)
         {
             $files = $request->file('file');
             $originalFileName = $files->getClientOriginalName();
-            $dataKegiatan['file'] = $files->storeAs('post-file', $originalFileName);
+            $dataPengetahuan['file'] = $files->storeAs('post-file', $originalFileName);
         }
 
-        Kegiatan::create($dataKegiatan);
+        Pengetahuan::create($dataPengetahuan);
 
-        return redirect()->route('kegiatan.index')->with('succes create', 'Data berhasil di tambahkan.');
+        return redirect()->route('pengetahuan.index')->with('succes create', 'Data berhasil di tambahkan.');
     }
 
     /**
@@ -91,14 +90,13 @@ class KegiatanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kegiatan $kegiatan)
+    public function update(Request $request, Pengetahuan $pengetahuan)
     {
-        $dataKegiatan = $request->validate([
+        $dataPengetahuan = $request->validate([
             'tanggal' => 'required',
-            'kode_kegiatan' => 'required',
+            'kode_pengetahuan' => 'required',
             'deskripsi' => 'required',
-            'file' => 'mimes:mp4|max:104857',
-            'kode_jabatan' => 'required',
+            'file' => 'mimes:mp4,docx,pdf|max:104857',
         ]);
 
         if ($request->file('file'))
@@ -110,12 +108,12 @@ class KegiatanController extends Controller
 
             $files = $request->file('file');
             $originalFileName = $files->getClientOriginalName();
-            $dataKegiatan['file'] = $files->storeAs('post-file', $originalFileName);
+            $dataPengeta['file'] = $files->storeAs('post-file', $originalFileName);
         }
 
-        $kegiatan->update($dataKegiatan);
+        $pengetahuan->update($dataPengetahuan);
 
-        return redirect()->route('kegiatan.index')->with('succes update', 'Data berhasil di diupdate.');
+        return redirect()->route('pengetahuan.index')->with('succes update', 'Data berhasil di diupdate.');
     }
 
     /**
@@ -124,30 +122,30 @@ class KegiatanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kegiatan $kegiatan)
+    public function destroy(Pengetahuan $pengetahuan)
     {
-        if ($kegiatan->file)
+        if ($pengetahuan->file)
         {
-            Storage::delete($kegiatan->file);
+            Storage::delete($pengetahuan->file);
         }
         
-        $kegiatan->delete();
+        $pengetahuan->delete();
 
-        return redirect()->route('kegiatan.index')->with('succes hapus', 'Data berhasil di dihapus.');
+        return redirect()->route('pengetahuan.index')->with('succes hapus', 'Data berhasil di dihapus.');
     }
 
-    public function filterKegiatan($tgl, Request $request)
+    public function filterPengetahuan($tgl, Request $request)
     {
-        $kegiatan = DB::table('kegiatans')->where('tanggal', $tgl)->paginate(5);
+        $pengetahuan = DB::table('pengetahuans')->where('tanggal', $tgl)->paginate(5);
 
-        return view('kegiatan.index', [
-            'datakegiatan' => $kegiatan,
+        return view('pengetahuan.index', [
+            'dataPengetahuan' => $pengetahuan,
         ])->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
     public function downloadFile($id)
     {
-        $file = Kegiatan::findOrFail($id);
+        $file = Pengetahuan::findOrFail($id);
         $pathToFile = storage_path('app/public/' . $file->file);
         return response()->file($pathToFile);
     }

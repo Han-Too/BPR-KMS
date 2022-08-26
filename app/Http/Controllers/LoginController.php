@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kegiatan;
 use App\Models\Peraturan;
 use App\Models\SOP;
+use App\Models\Departemen;
 
 
 use Illuminate\Http\Request;
@@ -20,12 +21,14 @@ class LoginController extends Controller
         $kegiatan = Kegiatan::latest()->paginate(5);
         $sop = Sop::latest()->paginate(5);
         $peraturan = Peraturan::latest()->paginate(5);
+        $departemen = Departemen::latest()->paginate(5);
         
 
         return view('login.index', [
             'kegiatan' => $kegiatan,
             'sop' => $sop,
-            'peraturan' => $peraturan
+            'peraturan' => $peraturan,
+            'departemen' =>$departemen
             
         ]);
     }

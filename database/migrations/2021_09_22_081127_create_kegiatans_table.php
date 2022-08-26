@@ -19,7 +19,7 @@ class CreateKegiatansTable extends Migration
             $table->string('jenis')->nullable();
             $table->string('file')->nullable();
             $table->string('deskripsi');
-            $table->string('status');
+            $table->string('kode_jabatan');
             $table->timestamps();
         });
     }

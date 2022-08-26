@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Departemen;
+use App\Models\Jabatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class DepartemenController extends Controller
+class JabatanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class DepartemenController extends Controller
      */
     public function index(Request $request)
     {
-        $departemen = Departemen::latest()->paginate(5);
-        return view('departemen.index', [
-            'dataDepartemen' => $departemen,
+        $jabatan = Jabatan::latest()->paginate(5);
+        return view('jabatan.index', [
+            'dataJabatan' => $jabatan,
         ])->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -40,18 +40,18 @@ class DepartemenController extends Controller
      */
     public function store(Request $request)
     {
-        $dataDepartemen = $request->validate([
-            'kode_departemen' => 'required',
-            'departemen' => 'required',
+        $dataJabatan = $request->validate([
+            'kode_jabatan' => 'required',
+            'jabatan' => 'required',
             'deskripsi' => 'required',
-            
+            'kode_departemen' => 'required',
         ]);
 
         
 
-        Departemen::create($dataDepartemen);
+        Jabatan::create($dataJabatan);
 
-        return redirect()->route('departemen.index')->with('succes create', 'Data berhasil di tambahkan.');
+        return redirect()->route('jabatan.index')->with('succes create', 'Data berhasil di tambahkan.');
     }
 
     /**
@@ -83,19 +83,20 @@ class DepartemenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Departemen $departemen)
+    public function update(Request $request, Jabatan $jabatan)
     {
-        $dataDepartemen = $request->validate([
-            'kode_departemen' => 'required',
-            'departemen' => 'required',
+        $dataJabatan = $request->validate([
+            'kode_jabatan' => 'required',
+            'jabatan' => 'required',
             'deskripsi' => 'required',
+            'kode_departemen' => 'required',
         ]);
 
        
 
-        $departemen->update($dataDepartemen);
+        $jabatan->update($dataJabatan);
 
-        return redirect()->route('departemen.index')->with('succes update', 'Data berhasil di diupdate.');
+        return redirect()->route('jabatan.index')->with('succes update', 'Data berhasil di diupdate.');
     }
 
     /**
@@ -104,20 +105,20 @@ class DepartemenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Departemen $departemen)
+    public function destroy(Jabatan $jabatan)
     {
         
-        $departemen->delete($id);
+        $jabatan->delete($id);
 
-        return redirect()->route('departemen.index')->with('succes hapus', 'Data berhasil di dihapus.');
+        return redirect()->route('jabatan.index')->with('succes hapus', 'Data berhasil di dihapus.');
     }
 
-    public function filterPeraturan(Request $request)
+    public function filterJabatan(Request $request)
     {
-        $departemen = DB::table('departemens')->paginate(5);
+        $jabatan = DB::table('jabatans')->paginate(5);
 
-        return view('departemen.index', [
-            'dataDepartemen' => $departemen,
+        return view('jabatan.index', [
+            'dataJabatan' => $jabatan,
         ])->with('i', ($request->input('page', 1) - 1) * 5);
     }
 

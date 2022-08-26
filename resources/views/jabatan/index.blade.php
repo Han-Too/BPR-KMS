@@ -9,70 +9,69 @@
                     <div class="row">
                         <div class="col">
                           <div class="logo d-flex justify-content-center mt-4">
-                            <h5 class="fs-1 fw-bold">Kelola Data Peraturan</h5>
+                            <h5 class="fs-1 fw-bold">Kelola Data Jabatan</h5>
                           </div>
                         </div>
                     </div>
                 </div>
               
                 <fieldset class="row mb-1 mt-3">
-                  <legend class="col-form-label col-sm-2 pt-0 fw-bold">TANGGAL</legend>
-                  <div class="col inputBox me-3">
-                    <input type="month" id="tgl" name="tgl">
-                    <a href="" onclick="this.href='/filter/peraturan/'+ document.getElementById('tgl').value" class="btn btn-primary ms-3">Cari</a>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalkegiatan">
+                     <div class="col inputBox me-3">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaljabatan">
                       Tambah
                       </button>
                   </div>
                 </fieldset>
               
-                      <!-- Button trigger modal -->
-                      {{-- <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-1">
-                        EX/. BUTTON TAMBAH
-                      </div> --}}
                 
                 <!-- Modal -->
-                      <div class="modal fade" id="modalkegiatan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal fade" id="modaljabatan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog modal-lg">
                           <div class="modal-content">
-                            <form method="POST" action="{{ route('peraturan.store') }}" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('jabatan.store') }}" enctype="multipart/form-data">
                               @csrf
                               <div class="modal-header">
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
-                              <div class="modal-body">
-                                <div class="row mb-3">
-                                  <label for="inputtgl" class="col-sm-2 col-form-label">TAHUN</label>
-                                  <div class="col-sm-10">
-                                    <input type="month" id="tanggal" name="tanggal" class="form-control" rows="3">
-                                </div>
-                              </div>
-                              <div class="row mb-3">
-                                <label for="inputJenis" class="col-sm-2 col-form-label">KODE PERATURAN</label>
+                             
+                              <div class="row mb-3 mt-3">
+                                <label for="inputKode" class="col-sm-2 col-form-label">KODE</label>
                                 <div class="col-sm-10">
-                                  <input type="text"  name="kode_peraturan" class="form-control" rows="3">
+                                  <input type="text" id="kode_jabatan" name="kode_jabatan"  class="form-control" rows="3">
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                              <label for="inputJenis" class="col-sm-2 col-form-label">NOMOR PERATURAN</label>
-                              <div class="col-sm-10">
-                                <input type="text"  name="nomor_peraturan" class="form-control" rows="3">
                               </div>
-                          </div>
+
                               <div class="row mb-3">
-                                  <label for="inputDeskripsi" class="col-sm-2 col-form-label">INSTITUSI</label>
+                                  <label for="inputNama" class="col-sm-2 col-form-label">JABATAN</label>
                                   <div class="col-sm-10">
-                                    <input type="text"  name="institusi" class="form-control" rows="3">
-                                   </div>
-                              </div>
-                              <div class="row mb-3">
-                                  <label for="inputDokumen" class="col-sm-2 col-form-label">DOKUMEN</label>
-                                  <div class="col-sm-10">
-                                      <input type="file" class="form-control" name="file" id="file">
-                                      <small class="form-text text-muted">Maksimal Ukuran 10MB</small>
+                                    <input type="text" id="jabatan" name="jabatan"  class="form-control" rows="2">
+                               
                                   </div>
                               </div>
+                              <div class="row mb-3">
+                                  <label for="inputDeskripsi" class="col-sm-2 col-form-label">DESKRIPSI</label>
+                                  <div class="col-sm-10">
+                                    <textarea name="deskripsi" class="form-control" id="deskripsi" rows="3" placeholder="Input Here"></textarea>
+                                  </div>
                               </div>
+                              <div class="row mb-3">
+                                <label for="inputDeskripsi" class="col-sm-2 col-form-label">DEPARTEMEN</label>
+                                <div class="col-sm-10">
+                              <select name="kode_departemen" id="kode_departemen" class="form-control" rows="2">
+                                <option disabled selected> Pilih </option>
+                               <?php 
+                               $con = mysqli_connect("localhost","root","","bpr-kms2");
+                                $sql=mysqli_query($con,"SELECT * FROM departemens");
+                                while ($data=mysqli_fetch_array($sql)) {
+                               ?>
+                                 <option value="<?=$data['kode_departemen']?>"><?=$data['kode_departemen']?></option> 
+                               <?php
+                                }
+                               ?>
+                                </select>
+                               </div>
+                              </div>
+                       
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Tambah</button>
@@ -82,6 +81,7 @@
                         </div>
                       </div>
                     </div>
+              
               
                 <div class="table-responsive">
                   @if (count($errors) > 0)
@@ -114,50 +114,42 @@
                     <thead>
                       <tr>
                           <th scope="col" class="table-primary">NO</th>
-                          <th scope="col" class="table-primary">Tahun</th>
-                          <th scope="col" class="table-primary">Kode Peraturan</th>
-                          <th scope="col" class="table-primary">Nomor Peraturan</th>
-                          <th scope="col" class="table-primary">Institusi</th>
-                          <th scope="col" class="table-primary">File</th>
+                          <th scope="col" class="table-primary">Kode</th>
+                          <th scope="col" class="table-primary">Jabatan</th>
+                          <th scope="col" class="table-primary">Deskripsi</th>
+                          <th scope="col" class="table-primary">Departemen</th>
                           <th scope="col" class="table-primary">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
-                      @forelse ($dataPeraturan as $item)
+                      @forelse ($dataJabatan as $item)
                         <tr>
                           <th scope="row col-1">{{ ++$i }}</th>
-                          <td class="lh-sm col-2">{{ $item->tanggal }}</td>
-                          <td class="lh-sm col-2">{{ $item->kode_peraturan }}</td>
-                          <td class="lh-sm col-3">{{ $item->nomor_peraturan }}</td>
-                          <td class="lh-sm col-3">{{ $item->institusi}}</td>
-                          
-                          @if ($item->file)
-                            <td><a href="{{ route('download-fileperaturan', $item->id) }}" class="badge bg-danger" target="_blank">PDF</a></td>
-                          @else
-                            <td><a href="#" class="badge bg-danger"></a></td>
-                          @endif
-
-                          <td>
-                            <button type="button" class=" btn badge bg-info text-dark me-1" data-bs-toggle="modal" data-bs-target="#modalEditPeraturan-{{ $item->id }}">Edit</a>
-                            <button type="button" class="btn badge bg-danger" data-bs-toggle="modal" data-bs-target="#modalHapusPeraturan-{{ $item->id }}">Hapus</a>
+                          <td class="lh-sm col-2">{{ $item->kode_jabatan }}</td>
+                          <td class="lh-sm col-2">{{ $item->jabatan }}</td>
+                          <td class="lh-sm col-3">{{ $item->deskripsi }}</td>
+                          <td class="lh-sm col-3">{{ $item->kode_departemen }}</td>
+                            <td>
+                            <button type="button" class=" btn badge bg-info text-dark me-5 " data-bs-toggle="modal" data-bs-target="#modalEditDepartemen-{{ $item->id }}">Edit</a>
+                            <button type="button" class="btn badge bg-danger" data-bs-toggle="modal" data-bs-target="#modalHapusDepartemen-{{ $item->id }}">Hapus</a>
                           </td>
                         </tr>
                       @empty
                         <tr>
-                          <td colspan="7" class="border text-center p-7">
-                            Tidak ada Peraturan
+                          <td colspan="7" class="border text-center p-5">
+                            Tidak ada Data Jabatan
                           </td>
                         </tr>
                       @endforelse
                     </tbody>
                   </table>
-                  {{ $dataPeraturan->links() }}
+                  {{ $dataJabatan->links() }}
               </div>
               </div>
-              
-              @foreach ($dataPeraturan as $item)
+              {{-- BATASAN WAKTU --}}
+              @foreach ($dataJabatan as $item)
               <!-- Modal -->
-              <div class="modal fade" id="modalHapusPeraturan-{{ $item->id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalHapusDataLabel" aria-hidden="true">
+              <div class="modal fade" id="modalHapusDepartemen-{{ $item->id }}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalHapusDataLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -165,11 +157,11 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body fw-bold">
-                      Hapus data Peraturan?
+                      Hapus data Jabatan?
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                      <form action="{{ route('peraturan.destroy', $item->id) }}" method="POST">
+                      <form action="{{ route('jabatan.destroy', $item->id) }}" method="POST">
                         {!! method_field('delete') . csrf_field() !!}
                         <button type="submit" class="btn btn-danger">Hapus</button>
                       </form>
@@ -180,12 +172,12 @@
               <!-- Modal -->
               @endforeach
               
-              @foreach ($dataPeraturan as $item)
+              @foreach ($dataJabatan as $item)
               <!-- Modal -->
-              <div class="modal fade" id="modalEditPeraturan-{{ $item->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal fade" id="modalEditDepartemen-{{ $item->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
                       <div class="modal-content">
-                        <form method="POST" action="{{ route('peraturan.update', $item->id) }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('jabatan.update', $item->id) }}" enctype="multipart/form-data">
                           @csrf
                           @method('put')
                           <div class="modal-header">
@@ -193,36 +185,40 @@
                           </div>
                           <div class="modal-body">
                             <div class="row mb-3">
-                              <label for="inputtgl" class="col-sm-2 col-form-label">TAHUN</label>
+                              <label for="inputDeskripsi" class="col-sm-2 col-form-label">KODE</label>
                               <div class="col-sm-10">
-                                <input value="{{ $item->tanggal }}" type="month" name="tanggal">
-                            </div>
-                            </div>
-                            <div class="row mb-3">
-                              <label for="inputJenis" class="col-sm-2 col-form-label">KODE PERATURAN</label>
-                              <div class="col-sm-10">
-                                <input type="text" value="{{ $item->kode_peraturan }}" name="kode_peraturan" class="form-control" rows="3">
+                                <input type="text"  class="form-control" rows="3" id="inputKode" name="kode_jabatan" value="{{ $item->kode_departemen }}">
+                                {{-- <textarea name="deskripsi" class="form-control" id="deskripsi" rows="3" placeholder="Input Here">{{ $item->deskripsi }}</textarea> --}}
                               </div>
                             </div>
                             <div class="row mb-3">
-                              <label for="inputDeskripsi" class="col-sm-2 col-form-label">NOMOR PERATURAN</label>
+                              <label for="inputDeskripsi" class="col-sm-2 col-form-label">JABATAN</label>
                               <div class="col-sm-10">
-                                <input type="text" value="{{ $item->nomor_peraturan }}" name="nomor_peraturan" class="form-control" rows="3">
+                                <input type="text"  class="form-control" rows="3" id="inputKode" name="jabatan" value="{{ $item->jabatan }}">
+                                {{-- <textarea name="deskripsi" class="form-control" id="deskripsi" rows="3" placeholder="Input Here">{{ $item->deskripsi }}</textarea> --}}
                               </div>
                             </div>
                             <div class="row mb-3">
-                              <label for="inputDeskripsi" class="col-sm-2 col-form-label">INSTITUSI</label>
+                              <label for="inputDeskripsi" class="col-sm-2 col-form-label">DESKRIPSI</label>
                               <div class="col-sm-10">
-                                <input type="text" value="{{ $item->institusi }}" name="institusi" class="form-control" rows="3">
+                                <textarea name="deskripsi" class="form-control" id="deskripsi" rows="3" placeholder="Input Here">{{ $item->deskripsi }}</textarea>
                               </div>
                             </div>
                             <div class="row mb-3">
-                              <label for="inputDokumen" class="col-sm-2 col-form-label">DOKUMEN</label>
+                              <label for="inputDeskripsi" class="col-sm-2 col-form-label">DEPARTEMEN</label>
                               <div class="col-sm-10">
-                                  <input type="hidden" name="oldFile" value="{{ $item->file }}">
-                                  <input type="file" class="form-control" name="file" id="file">
-                                  <small class="form-text text-muted">Maksimal Ukuran 10MB</small>
-                              </div>
+                            <select name="kode_departemen" id="kode_departemen"  class="form-control" rows="3">
+                              <option disabled selected> Pilih </option>
+                             <?php 
+                              $sql=mysqli_query($con,"SELECT * FROM departemens");
+                              while ($data=mysqli_fetch_array($sql)) {
+                             ?>
+                               <option value="<?=$data['kode_departemen']?>"><?=$data['kode_departemen']?></option> 
+                             <?php
+                              }
+                             ?>
+                              </select>
+                             </div>
                             </div>
                           </div>
                           <div class="modal-footer">
@@ -236,5 +232,7 @@
                 @endforeach
           </div>
 </div>
+ 
 
+          
 @endsection

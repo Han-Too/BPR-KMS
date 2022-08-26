@@ -43,17 +43,15 @@
                               </div>
                               <div class="modal-body">
                                 <div class="row mb-3">
-                                  <label for="inputtgl" class="col-sm-2 col-form-label">TANGGAL</label>
+                                  <label for="inputtgl" class="col-sm-2 col-form-label" >TANGGAL</label>
                                   <div class="col-sm-10">
-                                    <input type="date" id="tanggal" name="tanggal">
+                                    <input type="date" id="tanggal" name="tanggal"  rows="3" class="form-control">
                                 </div>
                               </div>
                               <div class="row mb-3">
-                                  <label for="inputJenis" class="col-sm-2 col-form-label">JENIS</label>
+                                  <label for="inputJenis" class="col-sm-2 col-form-label">KODE KEGIATAN</label>
                                   <div class="col-sm-10">
-                                  <select class="form-select" aria-label="Default select example" name="jenis" id="jenis" >
-                                      <option selected value="Kegiatan">Kegiatan</option>
-                                    </select>
+                                    <input type="text" name="kode_kegiatan"  class="form-control" rows="3">
                                   </div>
                               </div>
                               <div class="row mb-3">
@@ -66,8 +64,29 @@
                                   <label for="inputDokumen" class="col-sm-2 col-form-label">DOKUMEN</label>
                                   <div class="col-sm-10">
                                       <input type="file" class="form-control" name="file" id="file">
+                                      <small class="form-text text-muted">Maksimal Ukuran 100MB</small>
                                   </div>
                               </div>
+                              <div class="row mb-3">
+                                <label for="inputDokumen" class="col-sm-2 col-form-label">Kode Jabatan</label>
+                                <div class="col-sm-10">
+                                  <select name="kode_jabatan" id="kode_jabatan" rows="3" class="form-control">
+                                    <option disabled selected> Pilih </option>
+                                  <?php 
+                                  $con = mysqli_connect("localhost","root","","bpr-kms2");
+                                   $sql=mysqli_query($con,"SELECT * FROM jabatans");
+                                   while ($data=mysqli_fetch_array($sql)) {
+                                  ?>
+                                    <option value="<?=$data['kode_jabatan']?>"><?=$data['kode_jabatan']?></option> 
+                                  <?php
+                                   }
+                                  ?>
+                                   </select>
+                                </div>
+                            </div>
+                             
+
+
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -77,7 +96,7 @@
                           </div>
                         </div>
                       </div>
-              
+                    </div>
               
                 <div class="table-responsive">
                   @if (count($errors) > 0)
@@ -111,10 +130,12 @@
                       <tr>
                           <th scope="col" class="table-primary">NO</th>
                           <th scope="col" class="table-primary">Tanggal</th>
-                          <th scope="col" class="table-primary">Jenis</th>
+                          <th scope="col" class="table-primary">Kode Kegiatan</th>
                           <th scope="col" class="table-primary">Deskripsi</th>
+                          <th scope="col" class="table-primary">Kode Jabatan</th>
                           <th scope="col" class="table-primary">File</th>
                           <th scope="col" class="table-primary">Aksi</th>
+                          
                       </tr>
                     </thead>
                     <tbody>
@@ -122,12 +143,13 @@
                         <tr>
                           <th scope="row col-1">{{ ++$i }}</th>
                           <td class="lh-sm col-2">{{ $item->tanggal }}</td>
-                          <td class="lh-sm col-2">{{ $item->jenis }}</td>
+                          <td class="lh-sm col-2">{{ $item->kode_kegiatan }}</td>
                           <td class="lh-sm col-3">{{ $item->deskripsi }}</td>
+                          <td class="lh-sm col-2">{{ $item->kode_jabatan }}</td>
                           
 
                           @if ($item->file)
-                            <td><a href="{{ route('download-file', $item->id) }}" class="badge bg-danger">PDF</a></td>
+                            <td><a href="{{ route('download-filekegiatan', $item->id) }}" class="badge bg-success" target="_blank">Video</a></td>
                           @else
                             <td><a href="#" class="badge bg-danger"></a></td>
                           @endif
@@ -190,18 +212,13 @@
                             <div class="row mb-3">
                               <label for="inputtgl" class="col-sm-2 col-form-label">TANGGAL</label>
                               <div class="col-sm-10">
-                                <input value="{{ $item->tanggal }}" type="date" id="tanggal" name="tanggal">
+                                <input value="{{ $item->tanggal }}" type="date" id="tanggal" name="tanggal"  class="form-control" rows="3">
                             </div>
                             </div>
                             <div class="row mb-3">
-                              <label for="inputJenis" class="col-sm-2 col-form-label">JENIS</label>
+                              <label for="inputJenis" class="col-sm-2 col-form-label">KODE KEGIATAN</label>
                               <div class="col-sm-10">
-                              <select class="form-select" aria-label="Default select example" name="jenis" id="jenis" >
-                                  @if ("Pelaporan" == $item->jenis)
-                                    <option value="Kegiatan" selected>Kegiatan</option>
-                                 @endif
-                                  <option value="Kegiatan">Kegiatan</option>
-                              </select>
+                                <input type="text" name="kode_kegiatan" value="{{ $item->kode_kegiatan }}" class="form-control" rows="3">
                               </div>
                             </div>
                             <div class="row mb-3">
@@ -214,11 +231,30 @@
                            
                             <div class="row mb-3">
                               <label for="inputDokumen" class="col-sm-2 col-form-label">DOKUMEN</label>
+                              
                               <div class="col-sm-10">
                                   <input type="hidden" name="oldFile" value="{{ $item->file }}">
                                   <input type="file" class="form-control" name="file" id="file">
+                                  <small class="form-text text-muted">Maksimal Ukuran 100MB</small>
                               </div>
                             </div>
+                            <div class="row mb-3">
+                              <label for="inputDokumen" class="col-sm-2 col-form-label">Kode Jabatan</label>
+                              <div class="col-sm-10">
+                                <select name="kode_jabatan" id="kode_jabatan"  class="form-control" rows="3">
+                                  <option disabled selected> Pilih </option>
+                                <?php 
+                                $con = mysqli_connect("localhost","root","","bpr-kms2");
+                                 $sql=mysqli_query($con,"SELECT * FROM jabatans");
+                                 while ($data=mysqli_fetch_array($sql)) {
+                                ?>
+                                  <option value="<?=$data['kode_jabatan']?>"><?=$data['kode_jabatan']?></option> 
+                                <?php
+                                 }
+                                ?>
+                                 </select>
+                              </div>
+                          </div>
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

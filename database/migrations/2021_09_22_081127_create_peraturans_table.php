@@ -16,10 +16,10 @@ class CreatePeraturansTable extends Migration
         Schema::create('peraturans', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal')->nullable();
-            $table->string('jenis')->nullable();
+            $table->string('kode_peraturan')->nullable();
+            $table->string('nomor_peraturan')->nullable();
+            $table->string('institusi');
             $table->string('file')->nullable();
-            $table->string('deskripsi');
-            $table->string('status');
             $table->timestamps();
         });
     }

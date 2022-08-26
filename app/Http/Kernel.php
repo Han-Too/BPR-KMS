@@ -63,15 +63,15 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'is_kabag_SDM' => \App\Http\Middleware\IsKabagSDM::class,
         'is_Admin' => \App\Http\Middleware\IsAdmin::class,
         'is_Operator' => \App\Http\Middleware\IsOperator::class,
         'akses_kelola_data_karyawan' => \App\Http\Middleware\AksesKelolaDataKaryawan::class,
-        'akses_presensi' => \App\Http\Middleware\AksesPresensi::class,
         'akses_pelaporan_kegiatan' => \App\Http\Middleware\AksesPelaporanKegiatan::class,
+        'akses_pelaporan_pengetahuan' => \App\Http\Middleware\AksesPelaporanPengetahuan::class,
         'akses_pelaporan_peraturan' => \App\Http\Middleware\AksesPelaporanPeraturan::class,
         'akses_pelaporan_sop' => \App\Http\Middleware\AksesPelaporanSop::class,
         'akses_pelaporan_departemen' => \App\Http\Middleware\AksesPelaporanDepartemen::class,
+        'akses_pelaporan_jabatan' => \App\Http\Middleware\AksesPelaporanJabatan::class,
         
     ];
 }

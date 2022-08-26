@@ -11,9 +11,10 @@ class Peraturan extends Model
 
     protected $fillable = [
         'tanggal',
-        'jenis',
+        'kode_peraturan',
+        'nomor_peraturan',
+        'institusi',
         'file',
-        'deskripsi',
     ];
 
 }

@@ -42,9 +42,10 @@ class PeraturanController extends Controller
     {
         $dataPeraturan = $request->validate([
             'tanggal' => 'required',
-            'jenis' => 'required',
-            'deskripsi' => 'required',
-            'file' => 'mimes:pdf|max:2048',
+            'kode_peraturan' => 'required',
+            'nomor_peraturan' => 'required',
+            'institusi' => 'required',
+            'file' => 'mimes:pdf,docx|max:10485',
             
         ]);
 
@@ -93,9 +94,11 @@ class PeraturanController extends Controller
     {
         $dataPeraturan = $request->validate([
             'tanggal' => 'required',
-            'jenis' => 'required',
-            'deskripsi' => 'required',
-            'file' => 'mimes:pdf|max:2048',
+            'kode_peraturan' => 'required',
+            'nomor_peraturan' => 'required',
+            'institusi' => 'required',
+            'file' => 'mimes:pdf,docx|max:10485',
+            
         ]);
 
         if ($request->file('file'))
@@ -146,6 +149,6 @@ class PeraturanController extends Controller
     {
         $file = Peraturan::findOrFail($id);
         $pathToFile = storage_path('app/public/' . $file->file);
-        return response()->download($pathToFile);
+        return response()->file($pathToFile);
     }
 }

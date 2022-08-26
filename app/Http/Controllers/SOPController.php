@@ -16,9 +16,9 @@ class SopController extends Controller
      */
     public function index(Request $request)
     {
-        $SOP = Sop::latest()->paginate(5);
+        $sop = Sop::latest()->paginate(5);
         return view('sop.index', [
-            'dataSop' => $SOP,
+            'dataSOP' => $sop,
         ])->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -40,11 +40,15 @@ class SopController extends Controller
      */
     public function store(Request $request)
     {
-        $dataSop = $request->validate([
+        $dataSOP = $request->validate([
+            
             'tanggal' => 'required',
-            'jenis' => 'required',
+            'kode_sop' => 'required',
+            'nomor_dokumen' => 'required',
             'deskripsi' => 'required',
-            'file' => 'mimes:pdf|max:2048',
+            'file' => 'mimes:pdf,docx|max:10485',
+            'revisi' => 'required',
+            'kode_jabatan' => 'required',
             
         ]);
 
@@ -52,10 +56,10 @@ class SopController extends Controller
         {
             $files = $request->file('file');
             $originalFileName = $files->getClientOriginalName();
-            $dataSop['file'] = $files->storeAs('post-file', $originalFileName);
+            $dataSOP['file'] = $files->storeAs('post-file', $originalFileName);
         }
 
-        Sop::create($dataSop);
+        Sop::create($dataSOP);
 
         return redirect()->route('sop.index')->with('succes create', 'Data berhasil di tambahkan.');
     }
@@ -89,13 +93,16 @@ class SopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Sop $SOP)
+    public function update(Request $request, Sop $sop)
     {
-        $dataSop = $request->validate([
+        $dataSOP = $request->validate([
             'tanggal' => 'required',
-            'jenis' => 'required',
+            'kode_sop' => 'required',
+            'nomor_dokumen' => 'required',
             'deskripsi' => 'required',
-            'file' => 'mimes:pdf|max:2048',
+            'file' => 'mimes:pdf,docx|max:10485',
+            'revisi' => 'required',
+            'kode_jabatan' => 'required',
         ]);
 
         if ($request->file('file'))
@@ -107,10 +114,10 @@ class SopController extends Controller
 
             $files = $request->file('file');
             $originalFileName = $files->getClientOriginalName();
-            $dataSop['file'] = $files->storeAs('post-file', $originalFileName);
+            $dataSOP['file'] = $files->storeAs('post-file', $originalFileName);
         }
 
-        $SOP->update($dataSop);
+        $sop->update($dataSOP);
 
         return redirect()->route('sop.index')->with('succes update', 'Data berhasil di diupdate.');
     }
@@ -121,24 +128,24 @@ class SopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Sop $SOP)
+    public function destroy(Sop $sop)
     {
-        if ($SOP->file)
+        if ($sop->file)
         {
-            Storage::delete($SOP->file);
+            Storage::delete($sop->file);
         }
         
-        $SOP->delete();
+        $sop->delete();
 
         return redirect()->route('sop.index')->with('succes hapus', 'Data berhasil di dihapus.');
     }
 
     public function filterPeraturan($tgl, Request $request)
     {
-        $SOP = DB::table('sops')->where('tanggal', $tgl)->paginate(5);
+        $sop = DB::table('sops')->where('tanggal', $tgl)->paginate(5);
 
         return view('sop.index', [
-            'dataSop' => $SOP,
+            'dataSOP' => $sop,
         ])->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -146,6 +153,6 @@ class SopController extends Controller
     {
         $file = Sop::findOrFail($id);
         $pathToFile = storage_path('app/public/' . $file->file);
-        return response()->download($pathToFile);
+        return response()->file($pathToFile);
     }
 }

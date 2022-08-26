@@ -16,10 +16,12 @@ class CreateSOPTable extends Migration
         Schema::create('sops', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal')->nullable();
-            $table->string('jenis')->nullable();
+            $table->string('kode_sop')->nullable();
+            $table->string('nomor_dokumen')->nullable();
             $table->string('file')->nullable();
             $table->string('deskripsi');
-            $table->string('status');
+            $table->string('revisi');
+            $table->string('kode_jabatan')->nullable();
             $table->timestamps();
         });
     }

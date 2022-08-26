@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSertifikasisTable extends Migration
+class CreatePengetahuansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateSertifikasisTable extends Migration
      */
     public function up()
     {
-        Schema::create('sertifikasis', function (Blueprint $table) {
+        Schema::create('pengetahuans', function (Blueprint $table) {
             $table->id();
-            $table->string('id_karyawan');
-            $table->string('institusi_sertifikasi');
-            $table->string('sertifikasi');
-            $table->string('tingkat');
+            $table->date('tanggal')->nullable();
+            $table->string('kode_pengetahuan')->nullable();
+            $table->string('file')->nullable();
+            $table->string('deskripsi');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateSertifikasisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sertifikasis');
+        Schema::dropIfExists('kegiatans');
     }
 }

@@ -24,6 +24,8 @@
               </button>
             </div>
           </div>
+        </div>
+        
               <!-- Mulai Tabel -->
             
             <div class="table-responsive">
@@ -83,7 +85,7 @@
                     </tbody>
                 </table>
                 {{ $user->links() }}
-        </div>
+              </div>
     <!-- Akhir Tabel -->
 
     <!-- Modal -->
@@ -220,8 +222,8 @@
                       <label for="inputEmail3" class="col-sm-2 col-form-label">Role</label>
                             <div class="col-sm-10">
                                           <select class="form-select" name="role">
-                                              <option value="Staf SDM">Staf SDM</option>
-                                              <option value="Kabag SDM">Kabag SDM</option>
+                                              {{-- <option value="Staf SDM">Staf SDM</option>
+                                              <option value="Kabag SDM">Kabag SDM</option> --}}
                                               <option value="Operator">Operator</option>
                                               <option selected value="Administrator">Administrator</option>
                                           </select> 
@@ -230,7 +232,7 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
               <button type="submit" class="btn btn-primary">Tambah</button>
-            </div>
+            
           </div>
         </div>
       </div>
